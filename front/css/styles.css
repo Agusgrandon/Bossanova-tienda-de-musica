@@ -94,16 +94,20 @@ h1 {
     filter: none;
 }
 
+.destacado {
+    color: var(--acento);
+}
+
 /* Logo por temas */
-.logo-oscuro {
+.solo-oscuro {
     display: none;
 }
 
-:root[data-theme="dark"] .logo-claro {
+:root[data-theme="dark"] .solo-claro {
     display: none;
 }
 
-:root[data-theme="dark"] .logo-oscuro {
+:root[data-theme="dark"] .solo-oscuro {
     display: inline;
 }
 
