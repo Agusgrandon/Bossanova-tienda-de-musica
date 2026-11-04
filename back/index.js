@@ -1,9 +1,12 @@
 import express from "express";
 import environments from "./src/api/config/environments.js";
+import cors from "cors";
 import connection from "./src/api/database/db.js";
 
 const app = express();
 const PORT = environments.port;
+
+app.use(cors());
 
 // endpoints (URL + HTTP + LOGICA)
 app.get("/", (req, res) =>{
