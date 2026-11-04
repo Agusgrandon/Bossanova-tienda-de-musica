@@ -78,15 +78,15 @@ botonesCategoria.forEach(boton => {
 
 const selectorCategorias = document.querySelector(".selector-categorias");
 
-botonSiguiente.addEventListener("click", () => {
+botonSiguiente.addEventListener("click", async () => {
     paginaActual++;
-    cargar();
+    await cargar();
     selectorCategorias.scrollIntoView({ behavior: "smooth" });
 });
 
-botonAnterior.addEventListener("click", () => {
+botonAnterior.addEventListener("click", async () => {
     paginaActual--;
-    cargar();
+    await cargar();
     selectorCategorias.scrollIntoView({ behavior: "smooth" });
 });
 
