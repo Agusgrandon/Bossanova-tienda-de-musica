@@ -62,7 +62,7 @@
                 const data = await response.json();
 
                 const producto = data.payload[0];
-                
+
                 renderizarProducto(producto);
 
             }catch (error) {
@@ -79,9 +79,6 @@
                     </li>
                     <li>
                         Id: ${producto.id} / Nombre: ${producto.nombre} / Artista: ${producto.artista} / <strong>Precio: $${producto.precio}</strong>
-                    </li>
-                    <li>
-                        <button id="btn-eliminar">Eliminar</button>
                     </li>
                 </ul>
             `;
