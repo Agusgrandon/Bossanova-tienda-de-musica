@@ -5,6 +5,14 @@ import connection from "./src/api/database/db.js";
 const app = express();
 const PORT = environments.port;
 
+app.use(cors());
+
+app.use((req, res, next) => {
+    const fecha = new Date();
+    console.log(`[${fecha.toLocaleDateString()} ${fecha.toLocaleTimeString()}] ${req.method} ${req.url}`);
+    next();
+});
+
 // endpoints (URL + HTTP + LOGICA)
 app.get("/", (req, res) =>{
     res.send("sdbfjkhsbdcfkjscdksjfhdc")

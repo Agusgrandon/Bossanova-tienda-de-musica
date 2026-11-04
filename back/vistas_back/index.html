@@ -29,7 +29,27 @@
             </ul>
         </nav>
     </header>
+    <main>
+        <section id="contenedor-productos"></section>
+    </main>
+    <script>
+        const urlBase = "http://localhost:3000";
+        const contenedorProductos = document.getElementById("contenedor-productos");
 
+        async function obtenerProductos(){
+            try{
+                
+                const response = await fetch(`${urlBase}/api/productos`);
+                console.log(response);
+                const data = await response.json();
+                const productos = data.payload;
+                console.table(productos);
+
+            } catch (error){
+                console.error("Error en servidor: ", error);
+            }
+        }
+    </script>
 </body>
 
 </html>
