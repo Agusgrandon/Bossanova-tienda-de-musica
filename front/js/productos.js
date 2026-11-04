@@ -2,9 +2,9 @@
 Productos desde la API. Filtrado y paginación.
 ==============================================================*/
 const URL_API = "http://localhost:3000/api/productos";
+const productosPorPagina = 12;
 
 async function obtenerProductos(categoria, pagina) {
-    const productosPorPagina = 12;
     const respuesta = await fetch(URL_API);
 
     if (!respuesta.ok) {
@@ -23,6 +23,9 @@ async function obtenerProductos(categoria, pagina) {
 }
 
 const contenedorCards = document.getElementById("container-cards");
+const botonAnterior = document.getElementById("boton-anterior");
+const botonSiguiente = document.getElementById("boton-siguiente");
+const contadorPaginas = document.getElementById("contador-paginas");
 let categoriaActual = "discos";
 let paginaActual= 1;
 
@@ -47,6 +50,11 @@ async function cargar() {
     try {
         const respuesta = await obtenerProductos(categoriaActual, paginaActual);
         renderizar(respuesta.payload);
+        const totalPaginas = Math.max(1, Math.ceil(respuesta.total / productosPorPagina));
+        contadorPaginas.textContent = `Página ${paginaActual} de ${totalPaginas}`;
+        
+        botonAnterior.disabled = paginaActual === 1;
+        botonSiguiente.disabled = paginaActual === totalPaginas;
     } catch (error){
         console.error(error);
         contenedorCards.innerHTML = `<p>No se pudieron cargar los productos. Intentá de nuevo más tarde.</p>`;
@@ -66,6 +74,20 @@ botonesCategoria.forEach(boton => {
 
         cargar();
     });
+});
+
+const selectorCategorias = document.querySelector(".selector-categorias");
+
+botonSiguiente.addEventListener("click", () => {
+    paginaActual++;
+    cargar();
+    selectorCategorias.scrollIntoView({ behavior: "smooth" });
+});
+
+botonAnterior.addEventListener("click", () => {
+    paginaActual--;
+    cargar();
+    selectorCategorias.scrollIntoView({ behavior: "smooth" });
 });
 
 /*===============
