@@ -52,17 +52,17 @@
             </div>
         </header>
 
-        <main>
-            <h3>Consultar producto por id</h3>
+        <main class="container">
+            <h1>Consultar producto por id</h1>
 
-            <form id="getProductForm">
+            <form class="formulario" id="getProductForm">
                 <label for="idProd">Id producto</label>
                 <input type="number" name="id" id="idProd" min="1" required>
 
-                <input type="submit" value="Consultar">
+                <button type="submit" class="boton">Consultar</button>
             </form>
 
-            <section id="contenedor-productos"></section>
+            <section class="row g-4 justify-content-center mt-4" id="contenedor-productos"></section>
         </main>
 
         <script>
@@ -85,6 +85,11 @@
 
                     const producto = data.payload[0];
 
+                        if (!producto) {
+                            contenedorProductos.innerHTML = `<p>No existe un producto con id ${idProd}</p>`;
+                            return;
+                            }
+
                     renderizarProducto(producto);
 
                 }catch (error) {
@@ -95,25 +100,27 @@
 
             function renderizarProducto(producto) {
                 let htmlProducto = `
-                    <ul>
-                        <li>
-                            <img src="${producto.imagen}" alt="${producto.nombre}" class="img-listados">
-                        </li>
-                        <li>
-                            Id: ${producto.id} / Nombre: ${producto.nombre} / Artista: ${producto.artista} / <strong>Precio: $${producto.precio}</strong>
-                        </li>
-                    </ul>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <article class="card ${producto.activo ? "" : "card-inactiva"}">
+                            <img src="../../front/assets/productos/${producto.imagen}" alt="${producto.nombre}" width="250" height="250">
+                            <div class="card-datos">
+                                <span class="card-tipo">#${producto.id} · ${producto.tipo}</span>
+                                <h2 class="card-nombre">${producto.nombre}</h2>
+                                ${producto.artista ? `<p class="card-artista">${producto.artista}</p>` : ""}
+                                <p class="card-precio">$${Number(producto.precio).toLocaleString("es-AR")}</p>
+                                ${producto.activo ? "" : `<p class="card-tipo card-inactivo">Inactivo</p>`}
+                            </div>
+                        </article>
+                    </div>
                 `;
 
                 contenedorProductos.innerHTML = htmlProducto;
             }
         </script>
-
         <footer class="footer">
             <div class="container">
                 <p class="nombres-alumnos">Agustina Grandon - Mateo Rapetti</p>
             </div>
         </footer>
     </body>
-
 </html>

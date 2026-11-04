@@ -178,7 +178,7 @@ Bienvenida
     margin: 0;
 }
 
-#form-nombre {
+.formulario {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -188,11 +188,11 @@ Bienvenida
     text-align: left;
 }
 
-#form-nombre label {
+.formulario label {
     font-weight: 500;
 }
 
-#form-nombre input {
+.formulario input {
     font: inherit;
     padding: 10px 12px;
     border: 1px solid var(--borde);
@@ -201,12 +201,12 @@ Bienvenida
     color: var(--texto);
 }
 
-#form-nombre input::placeholder {
+.formulario input::placeholder {
     color: var(--texto);
     opacity: 0.6;
 }
 
-#form-nombre .boton {
+.formulario .boton {
     align-self: center;
     padding: 12px 40px;
     font-size: 1.1rem;
