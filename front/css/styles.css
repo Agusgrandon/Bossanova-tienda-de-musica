@@ -275,6 +275,19 @@ Cards
     align-self: flex-start;
 }
 
+.card-inactiva {
+    opacity: 0.5;
+}
+
+.card-inactiva img {
+    filter: grayscale(1);
+}
+
+.card-inactivo {
+    color: var(--borde);
+    background-color: color-mix(in srgb, var(--borde) 20%, transparent);
+}
+
 .card-nombre {
     font-size: 1.3rem;
     line-height: 1.2;
