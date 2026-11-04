@@ -1,8 +1,7 @@
-const URL_API = "http://localhost:3000/api/productos";
-
 /* =============================================================
 Productos desde la API. Filtrado y paginación.
 ==============================================================*/
+const URL_API = "http://localhost:3000/api/productos";
 
 async function obtenerProductos(categoria, pagina) {
     const productosPorPagina = 12;
@@ -53,6 +52,21 @@ async function cargar() {
         contenedorCards.innerHTML = `<p>No se pudieron cargar los productos. Intentá de nuevo más tarde.</p>`;
     }
 }
+
+const botonesCategoria = document.querySelectorAll("[data-categoria]");
+
+botonesCategoria.forEach(boton => {
+    boton.addEventListener("click", () => {
+        categoriaActual = boton.dataset.categoria;
+        paginaActual = 1;
+
+        botonesCategoria.forEach(otro => {
+            otro.setAttribute("aria-pressed", otro === boton);
+        });
+
+        cargar();
+    });
+});
 
 /*===============
 Saludo al usuario 
