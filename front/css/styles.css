@@ -2,7 +2,9 @@
     box-sizing: border-box;
 }
 
-/* Tema claro */
+/*======== 
+Tema claro 
+========*/
 :root {
     color-scheme: light;
     --fondo: #F3E6D8;
@@ -12,10 +14,12 @@
     --borde: #7A7A82;
     --boton: #9C4A3A;
     --texto-boton: #FFFFFF;
-    --acento: #5E7F3A;
+    --destacado: #466326;
 }
 
-/* Tema oscuro */
+/*=========
+Tema oscuro
+=========*/
 :root[data-theme="dark"] {
     color-scheme: dark;
     --fondo: #150808;
@@ -25,10 +29,12 @@
     --borde: #C9C9CF;
     --boton: #F2A25C;
     --texto-boton: #150808;
-    --acento: #5E7F3A;
+    --destacado: #9BC26B;
 }
 
-/* Generales */
+/*=======
+Generales 
+=======*/
 body {
     display: flex;
     min-height: 100vh;
@@ -53,7 +59,18 @@ h1 {
     font-size: clamp(1.8rem, 6vw, 3rem);
 }
 
-/* Botones */
+.destacado {
+    color: var(--destacado);
+}
+
+:focus-visible {
+    outline: 2px solid var(--titulo);
+    outline-offset: 2px;
+}
+
+/*=====
+Botones
+=====*/
 .boton {
     font-family: inherit;
     font-weight: 500;
@@ -78,11 +95,6 @@ h1 {
     filter: brightness(0.8);
 }
 
-.boton:focus-visible {
-    outline: 2px solid var(--titulo);
-    outline-offset: 2px;
-}
-
 .boton-secundario {
     background: transparent;
     color: var(--texto);
@@ -94,11 +106,15 @@ h1 {
     filter: none;
 }
 
-.destacado {
-    color: var(--acento);
+.boton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: none;
 }
 
-/* Logo por temas */
+/*============
+Logo por temas 
+============*/
 .solo-oscuro {
     display: none;
 }
@@ -111,7 +127,9 @@ h1 {
     display: inline;
 }
 
-/* Header */
+/*====
+Header
+====*/
 .header {
     padding-block: 12px;
     border-bottom: 1px solid var(--borde);
@@ -141,12 +159,9 @@ h1 {
     height: auto;
 }
 
-.nombres-alumnos {
-    font-size: 12px;
-    margin: 0;
-}
-
-/* Bienvenida */
+/*========
+Bienvenida
+========*/
 .bienvenida {
     display: flex;
     flex-direction: column;
@@ -191,22 +206,102 @@ h1 {
     opacity: 0.6;
 }
 
-#form-nombre input:focus-visible {
-    outline: 2px solid var(--titulo);
-    outline-offset: 2px;
-}
-
 #form-nombre .boton {
     align-self: center;
     padding: 12px 40px;
     font-size: 1.1rem;
 }
 
-/* Footer */
+/*======
+Catálogo
+======*/
+.selector-categorias, .paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.selector-categorias {
+    margin-bottom: 32px;
+}
+
+.selector-categorias .boton[aria-pressed="true"] {
+    filter: brightness(0.7);
+}
+
+.paginacion {
+    margin-block: 40px;
+}
+
+/*===
+Cards
+===*/
+.card {
+    display: flex;
+    flex-direction: column;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.card img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.card-datos {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+    padding: 20px;
+}
+
+.card-datos h2, .card-datos p {
+    margin: 0;
+}
+
+.card-tipo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    color: var(--destacado);
+    background-color: color-mix(in srgb, var(--destacado) 20%, transparent);
+    border-radius: 999px;
+    align-self: flex-start;
+}
+
+.card-nombre {
+    font-size: 1.3rem;
+    line-height: 1.2;
+}
+
+.card-datos .card-precio {
+    margin-top: auto;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.card-datos .boton {
+    margin-top: 6px;
+}
+
+/*====
+Footer
+====*/
 .footer {
     padding-block: 16px;
     border-top: 1px solid var(--borde);
     text-align: center;
+}
+
+.nombres-alumnos {
+    font-size: 12px;
+    margin: 0;
 }
 
 @media (min-width: 768px) {
