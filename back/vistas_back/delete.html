@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bossanova - Eliminar</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li class="li-header">
+                    <a href="./index.html">Principal</a>
+                </li>
+                <li class="li-header">
+                    <a href="./get.html">Obtener</a>
+                </li>
+                <li class="li-header">
+                    <a href="./post.html">Crear</a>
+                </li>
+                <li class="li-header">
+                    <a href="./put.html">Modificar</a>
+                </li>
+                <li class="li-header">
+                    <a href="./delete.html">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h3>Consultar producto por id</h3>
+
+        <form id="getProductForm">
+            <label for="idProd">Id producto</label>
+            <input type="number" name="id" id="idProd" min="1" required>
+
+            <input type="submit" value="Consultar">
+        </form>
+
+        <section id="contenedor-productos"></section>
+    </main>
+
+    <script>
+        const urlBase = "http://localhost:3000";
+        const contenedorProductos = document.getElementById("contenedor-productos");
+        const getProductForm = document.getElementById("getProductForm");
+
+        getProductForm.addEventListener("submit", async (event) =>{
+            event.preventDefault();
+
+            const idProd = event.target.idProd.value.trim();
+            console.log(idProd);
+
+            try{
+                const response = await fetch(`${urlBase}/api/productos/${idProd}`);
+                 console.log(response);
+                const data = await response.json();
+                const producto = data.payload[0];
+                renderizarProducto(producto);
+            }catch (error) {
+                console.error("Error al obtener productos: ", error);
+            }
+        });
+
+        function renderizarProducto(producto) {
+            let htmlProducto = `
+                <ul>
+                    <li>
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="img-listados">
+                    </li>
+                    <li>
+                        Id: ${producto.id} / Nombre: ${producto.nombre} / Artista: ${producto.artista} / <strong>Precio: $${producto.precio}</strong>
+                    </li>
+                    <li>
+                        <button id="btn-eliminar">Eliminar</button>
+                    </li>
+                </ul>
+            `;
+
+            contenedorProductos.innerHTML = htmlProducto;
+        }
+    </script>
+</body>
+
+</html>

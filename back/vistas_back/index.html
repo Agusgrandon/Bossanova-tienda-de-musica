@@ -38,17 +38,37 @@
 
         async function obtenerProductos(){
             try{
-                
+
                 const response = await fetch(`${urlBase}/api/productos`);
                 console.log(response);
                 const data = await response.json();
                 const productos = data.payload;
                 console.table(productos);
-
+                renderizarProductos(productos);
+                
             } catch (error){
                 console.error("Error en servidor: ", error);
             }
         }
+
+        function renderizarProductos(array){
+            let htmlProductos = "";
+
+            array.forEach(producto =>{
+                htmlProductos += `
+                        <div class="card-producto">
+                        <img class="card-img" src="${producto.imagen}" alt="${producto.nombre}">
+                        <h4>${producto.nombre}</h4>
+                        <p>Id: ${producto.id}</p>
+                        <p>Id: ${producto.artista}</p>
+                        <p>$ ${producto.precio}</p>
+                    </div>
+                `
+            });
+            contenedorProductos.innerHTML = htmlProductos;
+        }
+
+        obtenerProductos()
     </script>
 </body>
 
