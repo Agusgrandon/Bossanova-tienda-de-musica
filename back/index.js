@@ -7,7 +7,7 @@ const PORT = environments.port;
 
 // endpoints (URL + HTTP + LOGICA)
 app.get("/", (req, res) =>{
-    res.send("agusususs")
+    res.send("sdbfjkhsbdcfkjscdksjfhdc")
 });
 
 
