@@ -159,6 +159,34 @@ Header
     height: auto;
 }
 
+/*==========================
+Menú hamburguesa (backoffice)
+==========================*/
+.menu-admin {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    flex-basis: 100%;
+    order: 1;         
+}
+
+.menu-admin.abierto {
+    display: flex;
+}
+
+@media (min-width: 992px) {
+    .boton-menu {
+        display: none;
+    }
+
+    .menu-admin {
+        display: flex;
+        flex-direction: row;
+        flex-basis: auto;
+        order: 0;
+    }
+}
+
 /*========
 Bienvenida
 ========*/

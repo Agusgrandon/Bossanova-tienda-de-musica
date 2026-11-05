@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,9 +22,8 @@
 
         <link rel="stylesheet" href="../../front/css/styles.css">
         <script src="../../front/js/tema.js"></script>
-
+        <script src="js/menu.js" defer></script>
     </head>
-
     <body>
         <header class="header">
             <div class="container">
@@ -36,15 +34,18 @@
                         height="40">
                 </a>
 
+                <nav class="menu-admin" id="menu-admin">
+                    <a class="boton boton-secundario" href="index.html">Principal</a>
+                    <a class="boton boton-secundario" href="get.html">Obtener</a>
+                    <a class="boton boton-secundario" href="post.html">Crear</a>
+                    <a class="boton boton-secundario" href="put.html">Modificar</a>
+                    <a class="boton boton-secundario" href="delete.html">Eliminar</a>
+                    <a class="boton boton-secundario" href="../../front/index.html">Ir a la tienda</a>
+                </nav>
+
                 <div class="header-acciones">
-                    <nav class="header-acciones">
-                        <a class="boton boton-secundario" href="index.html">Principal</a>
-                        <a class="boton boton-secundario" href="get.html">Obtener</a>
-                        <a class="boton boton-secundario" href="post.html">Crear</a>
-                        <a class="boton boton-secundario" href="put.html">Modificar</a>
-                        <a class="boton boton-secundario" href="delete.html">Eliminar</a>
-                        <a class="boton boton-secundario" href="../../front/index.html">Ir a la tienda</a>
-                    </nav>
+                    <button class="boton boton-secundario boton-menu" type="button" id="boton-menu"
+                        aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-admin">☰</button>
                     <button class="boton boton-secundario" type="button" id="boton-tema" aria-label="Cambiar tema"
                         title="Cambiar tema">
                         <img class="solo-claro" src="../../front/assets/iconos/luna.svg" alt="" width="20" height="20">
@@ -53,6 +54,7 @@
                 </div>
             </div>
         </header>
+        
         <main class="container">
                 <h1>Crear producto</h1>
 
@@ -92,77 +94,57 @@
                     <input type="number" name="precio" id="precioProducto" min="1" required>
 
                     <button type="submit" class="boton">Crear producto</button>
-
                 </form>
-            <section id="contenedor-productos"></section>
         </main>
-        <script>
-            const urlBase = "http://localhost:3000";
-            const contenedorProductos = document.getElementById("contenedor-productos");
-            const createProductForm = document.getElementById("createProductForm");
 
-            /*==============================================================
-            Esconder el input de artista si se escoge la categoria Hardware.
-            ==============================================================*/
-            const selectCategoria = document.getElementById("categoriaProducto");
-            const inputArtista = document.getElementById("artistaProducto");
-            const labelArtista = document.querySelector('label[for="artistaProducto"]');
+    <script>
+        const urlBase = "http://localhost:3000";
+        const createProductForm = document.getElementById("createProductForm");
 
-            selectCategoria.addEventListener("change", () => {
-            const hardwareSeleccionado = selectCategoria.value === "hardware";
-            labelArtista.hidden = hardwareSeleccionado;
-            inputArtista.hidden = hardwareSeleccionado;
+        /*==============================================================
+        Esconder el input de artista si se escoge la categoria Hardware.
+        ==============================================================*/
+        const selectCategoria = document.getElementById("categoriaProducto");
+        const inputArtista = document.getElementById("artistaProducto");
+        const labelArtista = document.querySelector('label[for="artistaProducto"]');
 
-            if (hardwareSeleccionado) {
-                inputArtista.value = "";
+        selectCategoria.addEventListener("change", () => {
+        const hardwareSeleccionado = selectCategoria.value === "hardware";
+        labelArtista.hidden = hardwareSeleccionado;
+        inputArtista.hidden = hardwareSeleccionado;
+
+        if (hardwareSeleccionado) {
+            inputArtista.value = "";
+        }
+    }) 
+    createProductForm.addEventListener("submit", async event => {
+        event.preventDefault(); 
+        const formData = new FormData(event.target);
+        const formObj = Object.fromEntries(formData.entries());
+        
+        try {
+            const response = await fetch(`${urlBase}/api/productos`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formObj)
+            });
+            const data = await response.json(); 
+            alert(data.message);
+
+            if (response.ok) {
+                window.location.href = "index.html";
             }
-        }) 
-
-            createProductForm.addEventListener("submit", async event => {
-
-                event.preventDefault(); 
-
-                const formData = new FormData(event.target);
-                console.log(formData);
-
-                const formObj = Object.fromEntries(formData.entries());
-                console.log(formObj);
-            
-
-                console.log(JSON.stringify(formObj));
-                
-                try {
-                    const response = await fetch(`${urlBase}/api/productos`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(formObj)
-                    });
-
-                    const data = await response.json(); 
-                    console.log(data.message);
-                    alert(data.message);
-
-                    if (response.ok) {
-                        event.target.reset();
-                        labelArtista.hidden = false;
-                        inputArtista.hidden = false;
-                    }
-
-                } catch (error) {
-                    console.error("Error al obtener productos: ", error);
-                }
-
-            })
-
-        </script>
-
+        } catch (error) {
+            console.error("Error al crear producto: ", error);
+        }
+    })
+    </script>
         <footer class="footer">
             <div class="container">
                 <p class="nombres-alumnos">Agustina Grandon - Mateo Rapetti</p>
             </div>
         </footer>
     </body>
-
 </html>

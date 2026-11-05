@@ -23,7 +23,7 @@
 
         <link rel="stylesheet" href="../../front/css/styles.css">
         <script src="../../front/js/tema.js"></script>
-
+        <script src="js/menu.js" defer></script>
     </head>
 
     <body>
@@ -36,15 +36,18 @@
                         height="40">
                 </a>
 
+                <nav class="menu-admin" id="menu-admin">
+                    <a class="boton boton-secundario" href="index.html">Principal</a>
+                    <a class="boton boton-secundario" href="get.html">Obtener</a>
+                    <a class="boton boton-secundario" href="post.html">Crear</a>
+                    <a class="boton boton-secundario" href="put.html">Modificar</a>
+                    <a class="boton boton-secundario" href="delete.html">Eliminar</a>
+                    <a class="boton boton-secundario" href="../../front/index.html">Ir a la tienda</a>
+                </nav>
+
                 <div class="header-acciones">
-                    <nav class="header-acciones">
-                        <a class="boton boton-secundario" href="index.html">Principal</a>
-                        <a class="boton boton-secundario" href="get.html">Obtener</a>
-                        <a class="boton boton-secundario" href="post.html">Crear</a>
-                        <a class="boton boton-secundario" href="put.html">Modificar</a>
-                        <a class="boton boton-secundario" href="delete.html">Eliminar</a>
-                        <a class="boton boton-secundario" href="../../front/index.html">Ir a la tienda</a>
-                    </nav>
+                    <button class="boton boton-secundario boton-menu" type="button" id="boton-menu"
+                        aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-admin">☰</button>
                     <button class="boton boton-secundario" type="button" id="boton-tema" aria-label="Cambiar tema"
                         title="Cambiar tema">
                         <img class="solo-claro" src="../../front/assets/iconos/luna.svg" alt="" width="20" height="20">
@@ -92,7 +95,6 @@
                     }
 
                     renderizarProducto(producto);
-
                 } catch (error) {
                     console.error("Error al obtener producto: ", error);
                 }
@@ -116,7 +118,6 @@
                     </div>
                 `;
 
-                // El botón aparece después del innerHTML
                 document.getElementById("btn-modificar").addEventListener("click", () => {
                     renderizarFormularioPut(producto);
                 });
@@ -153,7 +154,7 @@
                     </form>
                 `;
 
-                // ocultar artista si cambia a hardware (igual que en post)
+                // Ocultar artista si cambia a hardware
                 const selectCategoria = document.getElementById("categoriaProducto");
                 const inputArtista = document.getElementById("artistaProducto");
                 const labelArtista = document.querySelector('label[for="artistaProducto"]');
@@ -171,7 +172,6 @@
                 // 4. Enviar el PUT
                 document.getElementById("modifyProductForm").addEventListener("submit", async (event) => {
                     event.preventDefault();
-
                     const formObj = Object.fromEntries(new FormData(event.target).entries());
 
                     try {
@@ -185,9 +185,8 @@
                         alert(data.message);
 
                         if (response.ok) {
-                            getProductForm.requestSubmit(); // vuelve a buscar: muestra la card actualizada
+                            window.location.href = "index.html";
                         }
-
                     } catch (error) {
                         console.error("Error al modificar producto: ", error);
                     }

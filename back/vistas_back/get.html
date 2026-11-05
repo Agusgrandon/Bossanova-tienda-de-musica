@@ -22,8 +22,8 @@
 
         <link rel="stylesheet" href="../../front/css/styles.css">
         <script src="../../front/js/tema.js"></script>
+        <script src="js/menu.js" defer></script>
     </head>
-
     <body>
         <header class="header">
             <div class="container">
@@ -34,15 +34,18 @@
                         height="40">
                 </a>
 
+                <nav class="menu-admin" id="menu-admin">
+                    <a class="boton boton-secundario" href="index.html">Principal</a>
+                    <a class="boton boton-secundario" href="get.html">Obtener</a>
+                    <a class="boton boton-secundario" href="post.html">Crear</a>
+                    <a class="boton boton-secundario" href="put.html">Modificar</a>
+                    <a class="boton boton-secundario" href="delete.html">Eliminar</a>
+                    <a class="boton boton-secundario" href="../../front/index.html">Ir a la tienda</a>
+                </nav>
+
                 <div class="header-acciones">
-                    <nav class="header-acciones">
-                        <a class="boton boton-secundario" href="index.html">Principal</a>
-                        <a class="boton boton-secundario" href="get.html">Obtener</a>
-                        <a class="boton boton-secundario" href="post.html">Crear</a>
-                        <a class="boton boton-secundario" href="put.html">Modificar</a>
-                        <a class="boton boton-secundario" href="delete.html">Eliminar</a>
-                        <a class="boton boton-secundario" href="../../front/index.html">Ir a la tienda</a>
-                    </nav>
+                    <button class="boton boton-secundario boton-menu" type="button" id="boton-menu"
+                        aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-admin">☰</button>
                     <button class="boton boton-secundario" type="button" id="boton-tema" aria-label="Cambiar tema"
                         title="Cambiar tema">
                         <img class="solo-claro" src="../../front/assets/iconos/luna.svg" alt="" width="20" height="20">
@@ -61,7 +64,6 @@
 
                 <button type="submit" class="boton">Consultar</button>
             </form>
-
             <section class="row g-4 justify-content-center mt-4" id="contenedor-productos"></section>
         </main>
 
@@ -72,32 +74,26 @@
 
             getProductForm.addEventListener("submit", async (event) =>{
                 event.preventDefault();
-
                 const idProd = event.target.idProd.value.trim();
-                console.log(idProd);
 
                 try{
 
                     const response = await fetch(`${urlBase}/api/productos/${idProd}`);
-                    console.log(response);
                     const data = await response.json();
                     const producto = data.payload[0];
 
-                        if (!producto) {
-                            contenedorProductos.innerHTML = `<p>No existe un producto con id ${idProd}</p>`;
-                            return;
-                            }
-
+                    if (!producto) {
+                        contenedorProductos.innerHTML = `<p class="col-12 text-center">No existe un producto con id ${idProd}</p>`;
+                        return;
+                    }
                     renderizarProducto(producto);
-
                 }catch (error) {
-
-                    console.error("Error al obtener productos: ", error);
+                    console.error("Error al obtener producto: ", error);
                 }
             });
 
             function renderizarProducto(producto) {
-                let htmlProducto = `
+                contenedorProductos.innerHTML = `
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                         <article class="card ${producto.activo ? "" : "card-inactiva"}">
                             <img src="../../front/assets/productos/${producto.imagen}" alt="${producto.nombre}" width="250" height="250">
@@ -111,8 +107,6 @@
                         </article>
                     </div>
                 `;
-
-                contenedorProductos.innerHTML = htmlProducto;
             }
         </script>
         <footer class="footer">

@@ -22,18 +22,19 @@
 
         <link rel="stylesheet" href="../../front/css/styles.css">
         <script src="../../front/js/tema.js"></script>
+        <script src="js/menu.js" defer></script>
     </head>
     <body>
-    <header class="header">
-        <div class="container">
-            <a class="header-logo" href="index.html">
-                <img class="solo-claro" src="../../front/assets/logo/logo-claro.svg" alt="Bossanova" width="206"
-                    height="40">
-                <img class="solo-oscuro" src="../../front/assets/logo/logo-oscuro.svg" alt="Bossanova" width="206"
-                    height="40">
-            </a>
-            <div class="header-acciones">
-                <nav class="header-acciones">
+        <header class="header">
+            <div class="container">
+                <a class="header-logo" href="index.html">
+                    <img class="solo-claro" src="../../front/assets/logo/logo-claro.svg" alt="Bossanova" width="206"
+                        height="40">
+                    <img class="solo-oscuro" src="../../front/assets/logo/logo-oscuro.svg" alt="Bossanova" width="206"
+                        height="40">
+                </a>
+
+                <nav class="menu-admin" id="menu-admin">
                     <a class="boton boton-secundario" href="index.html">Principal</a>
                     <a class="boton boton-secundario" href="get.html">Obtener</a>
                     <a class="boton boton-secundario" href="post.html">Crear</a>
@@ -41,25 +42,30 @@
                     <a class="boton boton-secundario" href="delete.html">Eliminar</a>
                     <a class="boton boton-secundario" href="../../front/index.html">Ir a la tienda</a>
                 </nav>
-                <button class="boton boton-secundario" type="button" id="boton-tema" aria-label="Cambiar tema"
-                    title="Cambiar tema">
-                    <img class="solo-claro" src="../../front/assets/iconos/luna.svg" alt="" width="20" height="20">
-                    <img class="solo-oscuro" src="../../front/assets/iconos/sol.svg" alt="" width="20" height="20">
-                </button>
-            </div>
-        </div>
-    </header>
-        <main>
-            <h3>Consultar producto por id</h3>
 
-            <form id="getProductForm">
+                <div class="header-acciones">
+                    <button class="boton boton-secundario boton-menu" type="button" id="boton-menu"
+                        aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-admin">☰</button>
+                    <button class="boton boton-secundario" type="button" id="boton-tema" aria-label="Cambiar tema"
+                        title="Cambiar tema">
+                        <img class="solo-claro" src="../../front/assets/iconos/luna.svg" alt="" width="20" height="20">
+                        <img class="solo-oscuro" src="../../front/assets/iconos/sol.svg" alt="" width="20" height="20">
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="container">
+            <h1>Eliminar producto</h1>
+
+            <form class="formulario" id="getProductForm">
                 <label for="idProd">Id producto</label>
                 <input type="number" name="id" id="idProd" min="1" required>
 
-                <input type="submit" value="Consultar">
+                <button type="submit" class="boton">Buscar</button>
             </form>
 
-            <section id="contenedor-productos"></section>
+            <section class="row g-4 justify-content-center mt-4" id="contenedor-productos"></section>
         </main>
 
         <script>
@@ -67,39 +73,89 @@
             const contenedorProductos = document.getElementById("contenedor-productos");
             const getProductForm = document.getElementById("getProductForm");
 
-            getProductForm.addEventListener("submit", async (event) =>{
+            // 1. Buscar producto por id
+            getProductForm.addEventListener("submit", async (event) => {
                 event.preventDefault();
 
                 const idProd = event.target.idProd.value.trim();
-                console.log(idProd);
 
-                try{
+                try {
                     const response = await fetch(`${urlBase}/api/productos/${idProd}`);
-                    console.log(response);
                     const data = await response.json();
                     const producto = data.payload[0];
+
+                    if (!producto) {
+                        contenedorProductos.innerHTML = `<p class="col-12 text-center">No existe un producto con id ${idProd}</p>`;
+                        return;
+                    }
+
                     renderizarProducto(producto);
-                }catch (error) {
-                    console.error("Error al obtener productos: ", error);
+
+                } catch (error) {
+                    console.error("Error al obtener producto: ", error);
                 }
             });
 
+            // 2. Card con botón Eliminar (si está activo) o Activar (si está inactivo)
             function renderizarProducto(producto) {
-                let htmlProducto = `
-                    <ul>
-                        <li>
-                            <img src="${producto.imagen}" alt="${producto.nombre}" class="img-listados">
-                        </li>
-                        <li>
-                            Id: ${producto.id} / Nombre: ${producto.nombre} / Artista: ${producto.artista} / <strong>Precio: $${producto.precio}</strong>
-                        </li>
-                        <li>
-                            <button id="btn-eliminar">Eliminar</button>
-                        </li>
-                    </ul>
+                contenedorProductos.innerHTML = `
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <article class="card ${producto.activo ? "" : "card-inactiva"}">
+                            <img src="../../front/assets/productos/${producto.imagen}" alt="${producto.nombre}" width="250" height="250">
+                            <div class="card-datos">
+                                <span class="card-tipo">#${producto.id} · ${producto.tipo}</span>
+                                <h2 class="card-nombre">${producto.nombre}</h2>
+                                ${producto.artista ? `<p class="card-artista">${producto.artista}</p>` : ""}
+                                <p class="card-precio">$${Number(producto.precio).toLocaleString("es-AR")}</p>
+                                ${producto.activo ? "" : `<p class="card-tipo card-inactivo">Inactivo</p>`}
+                                <button type="button" class="boton" id="btn-estado">${producto.activo ? "Eliminar" : "Activar"}</button>
+                            </div>
+                        </article>
+                    </div>
                 `;
 
-                contenedorProductos.innerHTML = htmlProducto;
+                const accion = producto.activo ? "eliminar" : "activar";
+
+                // 3. Confirmación con confirm() (como el profe)
+                document.getElementById("btn-estado").addEventListener("click", () => {
+                    const confirmacion = confirm(`¿Seguro que querés ${accion} "${producto.nombre}"?`);
+
+                    if (!confirmacion) {
+                        alert("Acción cancelada");
+                    } else if (producto.activo) {
+                        eliminarProducto(producto.id);
+                    } else {
+                        activarProducto(producto.id);
+                    }
+                });
+            }
+
+            // 4a. Baja lógica: DELETE (en el back hace UPDATE activo = 0)
+            async function eliminarProducto(id) {
+                try {
+                    const response = await fetch(`${urlBase}/api/productos/${id}`, {
+                        method: "DELETE"
+                    });
+                    const data = await response.json();
+                    alert(data.message);
+                    getProductForm.requestSubmit(); // vuelve a buscar: muestra la card en gris
+                } catch (error) {
+                    console.error("Error al eliminar producto: ", error);
+                }
+            }
+
+            // 4b. Activar: PATCH (en el back hace UPDATE activo = 1)
+            async function activarProducto(id) {
+                try {
+                    const response = await fetch(`${urlBase}/api/productos/${id}/activar`, {
+                        method: "PATCH"
+                    });
+                    const data = await response.json();
+                    alert(data.message);
+                    getProductForm.requestSubmit(); // vuelve a buscar: muestra la card activa
+                } catch (error) {
+                    console.error("Error al activar producto: ", error);
+                }
             }
         </script>
 
