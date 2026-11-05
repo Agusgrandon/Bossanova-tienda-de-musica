@@ -15,7 +15,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware de validación de productos
+/*=====================
+Validación de productos
+=====================*/
 function validarProducto(req, res, next) {
     const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
 
@@ -40,33 +42,53 @@ function validarProducto(req, res, next) {
     next();
 }
 
-// endpoints (URL + HTTP + LOGICA)
+/*==============
+Validación de id
+==============*/
+function validarId(req, res, next) {
+    const id = Number(req.params.id);
+
+    if (!Number.isInteger(id) || id < 1) {
+        return res.status(400).json({ message: "El id debe ser un número entero positivo." });
+    }
+
+    next();
+}
+
+/*=============================
+Endpoints (URL + HTTP + LOGICA)
+=============================*/
 app.get("/", (req, res) =>{
     res.send("sdbfjkhsbdcfkjscdksjfhdc")
 });
 
 
-//get, escucha peticiones 
-app.get("/api/productos", async (req, res) =>{
-    const [rows] = await connection.query("SELECT * FROM productos");
-    //console.log(rows);
-    res.status(200).json({
-        payload: rows
-    })
-})
+// Get, escucha peticiones 
+app.get("/api/productos", async (req, res) => {
+    try {
+        const [rows] = await connection.query("SELECT * FROM productos");
+        res.status(200).json({ payload: rows });
 
-// GET product by id
-app.get("/api/productos/:id", async (req, res) => {
+    } catch (error) {
+        console.error("Error al obtener productos: ", error);
+        res.status(500).json({ message: "Error interno del servidor." });
+    }
+});
 
-    // Gracias al objeto req, extraigo el valor numero de la url
+/*==========
+GET (por ID)
+==========*/
+app.get("/api/productos/:id", validarId, async (req, res) => {
     const id = req.params.id;
 
-    const [rows] = await connection.query(`SELECT * FROM productos WHERE productos.id = ${id}`);
+    try {
+        const [rows] = await connection.query("SELECT * FROM productos WHERE id = ?", [id]);
+        res.status(200).json({ payload: rows });
 
-    // console.log(rows);
-    res.status(200).json({
-        payload: rows
-    })
+    } catch (error) {
+        console.error("Error al obtener producto: ", error);
+        res.status(500).json({ message: "Error interno del servidor." });
+    }
 });
 
 /*==
@@ -90,7 +112,7 @@ app.post("/api/productos", validarProducto, async (req, res) => {
 /*=
 PUT 
 =*/
-app.put("/api/productos/:id", validarProducto, async (req, res) => {
+app.put("/api/productos/:id", validarId, validarProducto, async (req, res) => {
     const id = req.params.id;
     const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
 
@@ -106,6 +128,50 @@ app.put("/api/productos/:id", validarProducto, async (req, res) => {
 
     } catch (error) {
         console.error("Error al modificar producto: ", error);
+        res.status(500).json({ message: "Error interno del servidor." });
+    }
+});
+
+/*==================
+DELETE (baja lógica)
+==================*/
+app.delete("/api/productos/:id", validarId, async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const sql = "UPDATE productos SET activo = 0 WHERE id = ?";
+        const [result] = await connection.query(sql, [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Producto no encontrado." });
+        }
+
+        res.status(200).json({ message: "Producto dado de baja." });
+
+    } catch (error) {
+        console.error("Error al dar de baja producto: ", error);
+        res.status(500).json({ message: "Error interno del servidor." });
+    }
+});
+
+/*=============
+PATCH (activar)
+=============*/
+app.patch("/api/productos/:id/activar", validarId, async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const sql = "UPDATE productos SET activo = 1 WHERE id = ?";
+        const [result] = await connection.query(sql, [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Producto no encontrado." });
+        }
+
+        res.status(200).json({ message: "Producto activado." });
+
+    } catch (error) {
+        console.error("Error al activar producto: ", error);
         res.status(500).json({ message: "Error interno del servidor." });
     }
 });
