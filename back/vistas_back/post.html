@@ -53,45 +53,70 @@
                 </div>
             </div>
         </header>
-        <main>
-            <!-- Formulario POST product, falta probarlo, sin terminar -->
-            <section>
+        <main class="container">
+                <h1>Crear producto</h1>
 
-                <h3>Crear producto</h3>
-
-                <form id="createProductForm">
-
-                    <label for="categoriaProd">Categoria</label>
-                    <select name="categoria" id="categoriaProd" required>
-                        <option value="Vinilo">Vinilo</option>
-                        <option value="CD">CD</option>
+                <form class="formulario" id="createProductForm">
+                    <label for="categoriaProducto">Categoria</label>
+                    <select name="categoria" id="categoriaProducto" required>
+                        <option value="discos">Discos</option>
+                        <option value="hardware">Hardware</option>
                     </select>
 
-                    <label for="imagenProd">Imagen</label>
-                    <input type="text" name="imagen" id="imagenProd" required>
+                    <label for="tipo">Tipo</label>
+                    <input type="text" id="tipo" name="tipo" list="tipo-lista" required>
+                    <datalist id="tipo-lista">
+                        <option value="CD">CD</option>
+                        <option value="Vinilo">Vinilo</option>
+                        <option value="Amplificador">Amplificador</option>
+                        <option value="Auriculares">Auriculares</option>
+                        <option value="Casetera">Casetera</option>
+                        <option value="Compresor">Compresor</option>
+                        <option value="Monitoreo">Monitoreo</option>
+                        <option value="Parlante">Parlante</option>
+                        <option value="Placa de audio">Placa de audio</option>
+                        <option value="Preamplificador">Preamplificador</option>
+                        <option value="Tocadiscos">Tocadiscos</option>
+                    </datalist>
 
-                    <label for="nombrenProd">Album</label>
-                    <input type="text" name="nombre" id="nombreProd" required>
+                    <label for="imagenProducto">Imagen</label>
+                    <input type="text" name="imagen" id="imagenProducto" required>
 
-                    <label for="artistaProd">Artista</label>
-                    <input type="text" name="artista" id="artistaProd" required>
+                    <label for="nombreProducto">Nombre</label>
+                    <input type="text" name="nombre" id="nombreProducto" required>
 
-                    <label for="precioProd">Precio</label>
-                    <input type="number" name="precio" id="precioProd" min="1" required>
+                    <label for="artistaProducto">Artista</label>
+                    <input type="text" name="artista" id="artistaProducto">
 
-                    <input type="submit" value="Crear producto">
+                    <label for="precioProducto">Precio</label>
+                    <input type="number" name="precio" id="precioProducto" min="1" required>
+
+                    <button type="submit" class="boton">Crear producto</button>
 
                 </form>
-
-            </section>
-
             <section id="contenedor-productos"></section>
         </main>
         <script>
             const urlBase = "http://localhost:3000";
             const contenedorProductos = document.getElementById("contenedor-productos");
-            const getProductForm = document.getElementById("getProductForm");
             const createProductForm = document.getElementById("createProductForm");
+
+            /*==============================================================
+            Esconder el input de artista si se escoge la categoria Hardware.
+            ==============================================================*/
+            const selectCategoria = document.getElementById("categoriaProducto");
+            const inputArtista = document.getElementById("artistaProducto");
+            const labelArtista = document.querySelector('label[for="artistaProducto"]');
+
+            selectCategoria.addEventListener("change", () => {
+            const hardwareSeleccionado = selectCategoria.value === "hardware";
+            labelArtista.hidden = hardwareSeleccionado;
+            inputArtista.hidden = hardwareSeleccionado;
+
+            if (hardwareSeleccionado) {
+                inputArtista.value = "";
+            }
+        }) 
 
             createProductForm.addEventListener("submit", async event => {
 
