@@ -54,25 +54,146 @@
             </div>
         </header>
 
-        <main>
-            <h3>Consultar producto por id</h3>
-            <!-- Formulario obtener producto por id -->
-            <form id="getProductForm">
+        <main class="container">
+            <h1>Modificar producto</h1>
+
+            <form class="formulario" id="getProductForm">
                 <label for="idProd">Id producto</label>
                 <input type="number" name="id" id="idProd" min="1" required>
 
-                <input type="submit" value="Consultar">
+                <button type="submit" class="boton">Buscar</button>
             </form>
 
-            <section id="contenedor-productos"></section>
+            <section class="row g-4 justify-content-center mt-4" id="contenedor-productos"></section>
             <section id="contenedor-form"></section>
         </main>
 
         <script>
+            const urlBase = "http://localhost:3000";
+            const contenedorProductos = document.getElementById("contenedor-productos");
+            const contenedorForm = document.getElementById("contenedor-form");
+            const getProductForm = document.getElementById("getProductForm");
 
+            // 1. Buscar producto por id
+            getProductForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
 
+                const idProd = event.target.idProd.value.trim();
+                contenedorForm.innerHTML = "";
+
+                try {
+                    const response = await fetch(`${urlBase}/api/productos/${idProd}`);
+                    const data = await response.json();
+                    const producto = data.payload[0];
+
+                    if (!producto) {
+                        contenedorProductos.innerHTML = `<p class="col-12 text-center">No existe un producto con id ${idProd}</p>`;
+                        return;
+                    }
+
+                    renderizarProducto(producto);
+
+                } catch (error) {
+                    console.error("Error al obtener producto: ", error);
+                }
+            });
+
+            // 2. Card con botón Modificar
+            function renderizarProducto(producto) {
+                contenedorProductos.innerHTML = `
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <article class="card ${producto.activo ? "" : "card-inactiva"}">
+                            <img src="../../front/assets/productos/${producto.imagen}" alt="${producto.nombre}" width="250" height="250">
+                            <div class="card-datos">
+                                <span class="card-tipo">#${producto.id} · ${producto.tipo}</span>
+                                <h2 class="card-nombre">${producto.nombre}</h2>
+                                ${producto.artista ? `<p class="card-artista">${producto.artista}</p>` : ""}
+                                <p class="card-precio">$${Number(producto.precio).toLocaleString("es-AR")}</p>
+                                ${producto.activo ? "" : `<p class="card-tipo card-inactivo">Inactivo</p>`}
+                                <button type="button" class="boton" id="btn-modificar">Modificar</button>
+                            </div>
+                        </article>
+                    </div>
+                `;
+
+                // El botón aparece después del innerHTML
+                document.getElementById("btn-modificar").addEventListener("click", () => {
+                    renderizarFormularioPut(producto);
+                });
+            }
+
+            // 3. Form precargado con los datos actuales
+            function renderizarFormularioPut(producto) {
+                const esHardware = producto.categoria === "hardware";
+
+                contenedorForm.innerHTML = `
+                    <form class="formulario" id="modifyProductForm">
+                        <label for="categoriaProducto">Categoria</label>
+                        <select name="categoria" id="categoriaProducto" required>
+                            <option value="discos" ${esHardware ? "" : "selected"}>Discos</option>
+                            <option value="hardware" ${esHardware ? "selected" : ""}>Hardware</option>
+                        </select>
+
+                        <label for="tipoProducto">Tipo</label>
+                        <input type="text" name="tipo" id="tipoProducto" value="${producto.tipo}" required>
+
+                        <label for="imagenProducto">Imagen</label>
+                        <input type="text" name="imagen" id="imagenProducto" value="${producto.imagen}" required>
+
+                        <label for="nombreProducto">Nombre</label>
+                        <input type="text" name="nombre" id="nombreProducto" value="${producto.nombre}" required>
+
+                        <label for="artistaProducto" ${esHardware ? "hidden" : ""}>Artista</label>
+                        <input type="text" name="artista" id="artistaProducto" value="${producto.artista ?? ""}" ${esHardware ? "hidden" : ""}>
+
+                        <label for="precioProducto">Precio</label>
+                        <input type="number" name="precio" id="precioProducto" min="1" value="${producto.precio}" required>
+
+                        <button type="submit" class="boton">Guardar cambios</button>
+                    </form>
+                `;
+
+                // ocultar artista si cambia a hardware (igual que en post)
+                const selectCategoria = document.getElementById("categoriaProducto");
+                const inputArtista = document.getElementById("artistaProducto");
+                const labelArtista = document.querySelector('label[for="artistaProducto"]');
+
+                selectCategoria.addEventListener("change", () => {
+                    const hardwareSeleccionado = selectCategoria.value === "hardware";
+                    labelArtista.hidden = hardwareSeleccionado;
+                    inputArtista.hidden = hardwareSeleccionado;
+
+                    if (hardwareSeleccionado) {
+                        inputArtista.value = "";
+                    }
+                });
+
+                // 4. Enviar el PUT
+                document.getElementById("modifyProductForm").addEventListener("submit", async (event) => {
+                    event.preventDefault();
+
+                    const formObj = Object.fromEntries(new FormData(event.target).entries());
+
+                    try {
+                        const response = await fetch(`${urlBase}/api/productos/${producto.id}`, {
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(formObj)
+                        });
+
+                        const data = await response.json();
+                        alert(data.message);
+
+                        if (response.ok) {
+                            getProductForm.requestSubmit(); // vuelve a buscar: muestra la card actualizada
+                        }
+
+                    } catch (error) {
+                        console.error("Error al modificar producto: ", error);
+                    }
+                });
+            }
         </script>
-
         <footer class="footer">
             <div class="container">
                 <p class="nombres-alumnos">Agustina Grandon - Mateo Rapetti</p>

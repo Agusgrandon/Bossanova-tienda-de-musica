@@ -80,9 +80,7 @@
 
                     const response = await fetch(`${urlBase}/api/productos/${idProd}`);
                     console.log(response);
-
                     const data = await response.json();
-
                     const producto = data.payload[0];
 
                         if (!producto) {

@@ -15,6 +15,31 @@ app.use((req, res, next) => {
     next();
 });
 
+// Middleware de validación de productos
+function validarProducto(req, res, next) {
+    const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
+
+    // Validación de categoría.
+    if (!["discos", "hardware"].includes(categoria)) {
+        return res.status(400).json({ message: "Categoria inválida." });
+    }
+
+    // Validación de nombre, tipo e imagen.
+    if (!nombre?.trim() || !tipo?.trim() || !imagen?.trim()) {
+        return res.status(400).json({ message: "Nombre, tipo e imagen no pueden estar vacíos." });
+    }
+
+    // Validación de precio.
+    if (!(Number(precio) > 0)) {
+        return res.status(400).json({ message: "El precio debe ser mayor a 0." });
+    }
+
+    // Artista: null si es hardware o si viene vacío.
+    req.body.artista = (categoria === "hardware" || !artista?.trim()) ? null : artista.trim();
+
+    next();
+}
+
 // endpoints (URL + HTTP + LOGICA)
 app.get("/", (req, res) =>{
     res.send("sdbfjkhsbdcfkjscdksjfhdc")
@@ -47,51 +72,44 @@ app.get("/api/productos/:id", async (req, res) => {
 /*==
 POST 
 ==*/
-app.post("/api/productos", async (req, res) => {
-    const {nombre, artista, tipo, categoria, precio, imagen} = req.body;
-    
-    // Validación de categoría.
-    if (!["discos", "hardware"].includes(categoria)) {
-        return res.status(400).json({
-            message: "Categoria inválida."
-        });
-    }
-    
-    // Validación de nombre, tipo e imagen.
-    if (!nombre?.trim() || !tipo?.trim() || !imagen?.trim()) {
-        return res.status(400).json({
-            message: "Nombre, tipo e imagen no pueden estar vacíos."
-        });
-    }
+app.post("/api/productos", validarProducto, async (req, res) => {
+    const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
 
-    // Validación de precio.
-    if (!(Number(precio) > 0)) {
-        return res.status(400).json({
-            message: "El precio no puede ser negativo."
-        });
-    }
-
-    // Validación de artista (que no haya un valor si se escoge "hardware").
-    const artistaFinal = (categoria === "hardware" || !artista?.trim()) ? null : artista.trim();
-    
-    // INSERT a la tabla productos
     try {
         const sql = "INSERT INTO productos (nombre, artista, tipo, categoria, precio, imagen) VALUES (?, ?, ?, ?, ?, ?)";
+        await connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen]);
 
-        await connection.query(sql, [nombre.trim(), artistaFinal, tipo.trim(), categoria, Number(precio), imagen.trim()]);
+        res.status(201).json({ message: "Producto creado." });
 
-        res.status(201).json({
-            message: "Producto creado."
-        });
     } catch (error) {
-        console.error("Error al crear el producto: ", error);
-
-        res.status(500).json({
-            message: "Error interno del servidor."
-        });
+        console.error("Error al crear producto: ", error);
+        res.status(500).json({ message: "Error interno del servidor." });
     }
 });
 
-app.listen(PORT, () =>{
+/*=
+PUT 
+=*/
+app.put("/api/productos/:id", validarProducto, async (req, res) => {
+    const id = req.params.id;
+    const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
+
+    try {
+        const sql = "UPDATE productos SET nombre = ?, artista = ?, tipo = ?, categoria = ?, precio = ?, imagen = ? WHERE id = ?";
+        const [result] = await connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen, id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Producto no encontrado." });
+        }
+
+        res.status(200).json({ message: "Producto modificado." });
+
+    } catch (error) {
+        console.error("Error al modificar producto: ", error);
+        res.status(500).json({ message: "Error interno del servidor." });
+    }
+});
+
+app.listen(PORT, () => {
     console.log(`Servidor http://localhost:${PORT}`);
 });
