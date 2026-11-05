@@ -144,6 +144,12 @@
                     console.log(data.message);
                     alert(data.message);
 
+                    if (response.ok) {
+                        event.target.reset();
+                        labelArtista.hidden = false;
+                        inputArtista.hidden = false;
+                    }
+
                 } catch (error) {
                     console.error("Error al obtener productos: ", error);
                 }

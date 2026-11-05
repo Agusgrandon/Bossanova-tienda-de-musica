@@ -7,6 +7,7 @@ const app = express();
 const PORT = environments.port;
 
 app.use(cors());
+app.use(express.json());
 
 app.use((req, res, next) => {
     const fecha = new Date();
@@ -41,6 +42,54 @@ app.get("/api/productos/:id", async (req, res) => {
     res.status(200).json({
         payload: rows
     })
+});
+
+/*==
+POST 
+==*/
+app.post("/api/productos", async (req, res) => {
+    const {nombre, artista, tipo, categoria, precio, imagen} = req.body;
+    
+    // Validación de categoría.
+    if (!["discos", "hardware"].includes(categoria)) {
+        return res.status(400).json({
+            message: "Categoria inválida."
+        });
+    }
+    
+    // Validación de nombre, tipo e imagen.
+    if (!nombre?.trim() || !tipo?.trim() || !imagen?.trim()) {
+        return res.status(400).json({
+            message: "Nombre, tipo e imagen no pueden estar vacíos."
+        });
+    }
+
+    // Validación de precio.
+    if (!(Number(precio) > 0)) {
+        return res.status(400).json({
+            message: "El precio no puede ser negativo."
+        });
+    }
+
+    // Validación de artista (que no haya un valor si se escoge "hardware").
+    const artistaFinal = (categoria === "hardware" || !artista?.trim()) ? null : artista.trim();
+    
+    // INSERT a la tabla productos
+    try {
+        const sql = "INSERT INTO productos (nombre, artista, tipo, categoria, precio, imagen) VALUES (?, ?, ?, ?, ?, ?)";
+
+        await connection.query(sql, [nombre.trim(), artistaFinal, tipo.trim(), categoria, Number(precio), imagen.trim()]);
+
+        res.status(201).json({
+            message: "Producto creado."
+        });
+    } catch (error) {
+        console.error("Error al crear el producto: ", error);
+
+        res.status(500).json({
+            message: "Error interno del servidor."
+        });
+    }
 });
 
 app.listen(PORT, () =>{
