@@ -12,15 +12,12 @@ app.use(cors());
 app.use(express.json());
 app.use(loggerUrl);
 
-
-
 /*=============================
 Endpoints (URL + HTTP + LOGICA)
 =============================*/
 app.get("/", (req, res) =>{
     res.send("servidor funcionando :) ")
 });
-
 
 app.use("/api/productos", productRoutes);
 
