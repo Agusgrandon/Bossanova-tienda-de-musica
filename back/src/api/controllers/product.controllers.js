@@ -1,11 +1,12 @@
 import  connection from "../database/db.js";
+import ProductModels from "../models/product.models.js";
 
 /*==========
 GET TODOS LOS PRODUCTOS
 ==========*/
 export const obtenerProductos = async (req, res) => {
     try {
-        const [rows] = await connection.query("SELECT * FROM productos");
+        const [rows] = await ProductModels.seleccionarProductos();
 
         if (rows.length === 0) {
             return res.status(404).json({
@@ -27,13 +28,13 @@ GET (por ID)
 export const obtenerProductoId = async (req, res) => {
 
     try {
-        const sql = ` SELECT * FROM productos WHERE productos.id = ?`
-        const [rows] = await connection.query(sql, [req.id]); // reemplaza el placeholders
+
+        const [rows] = await ProductModels.seleccionarPorId(req.id); // reemplaza el placeholders
         // si no se encuentra el id
         if (rows.length === 0){
             return res.status(404).json({
                 message: `No se encontro producto con id ${req.id}`
-            })
+            });
         }
 
         res.status(200).json({ payload: rows });
@@ -51,8 +52,7 @@ export const crearProducto = async (req, res) => {
 
     try {
         const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
-        const sql = "INSERT INTO productos (nombre, artista, tipo, categoria, precio, imagen) VALUES (?, ?, ?, ?, ?, ?)";
-        const [rows] = await connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen]);
+        const [rows] = await ProductModels.crearProducto(nombre, artista, tipo, categoria, precio, imagen);
 
         res.status(201).json({ 
             message: "Producto creado exitosamente.",
@@ -75,9 +75,7 @@ export const modificarProducto = async (req, res) => {
 
         const { nombre, artista, tipo, categoria, precio, imagen, activo } = req.body;
 
-        const sql = "UPDATE productos SET nombre = ?, artista = ?, tipo = ?, categoria = ?, precio = ?, imagen = ?, activo = ? WHERE id = ?";
-
-        const [result] = await connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen, activo, id]);
+        const [result] = await ProductModels.modificarProducto(nombre, artista, tipo, categoria, precio, imagen, activo, id);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Producto no encontrado." });
