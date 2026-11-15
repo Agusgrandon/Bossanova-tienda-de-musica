@@ -137,6 +137,9 @@
 
                 contenedorForm.innerHTML = `
                     <form class="formulario" id="modifyProductForm">
+
+                        <input type="hidden" name="id" value="${producto.id}">
+
                         <label for="categoriaProducto">Categoria</label>
                         <select name="categoria" id="categoriaProducto" required>
                             <option value="discos" ${esHardware ? "" : "selected"}>Discos</option>
@@ -159,7 +162,7 @@
                         <input type="number" name="precio" id="precioProducto" min="1" value="${producto.precio}" required>
 
                         <label for="activeProd">Estado</label>
-                        <select name="active" id="activeProd" required>
+                        <select name="activo" id="activeProd" required>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                         </select>

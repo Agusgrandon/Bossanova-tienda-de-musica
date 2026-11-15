@@ -1,7 +1,6 @@
 // rutas de los productos
 import { Router } from "express";
 import { validarId, validarProducto } from "../middlewares/middlewares.js";
-import  connection from "../database/db.js";
 import { activarProducto, crearProducto, eliminarProducto, modificarProducto, obtenerProductoId, obtenerProductos } from "../controllers/product.controllers.js";
 
 const router = Router();

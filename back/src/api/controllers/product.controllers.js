@@ -52,7 +52,7 @@ export const crearProducto = async (req, res) => {
     try {
         const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
         const sql = "INSERT INTO productos (nombre, artista, tipo, categoria, precio, imagen) VALUES (?, ?, ?, ?, ?, ?)";
-        await connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen]);
+        const [rows] = await connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen]);
 
         res.status(201).json({ 
             message: "Producto creado exitosamente.",
@@ -71,7 +71,9 @@ PUT
 export const modificarProducto = async (req, res) => {
    
     try {
-        const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
+        const id = req.id;
+
+        const { nombre, artista, tipo, categoria, precio, imagen, activo } = req.body;
 
         const sql = "UPDATE productos SET nombre = ?, artista = ?, tipo = ?, categoria = ?, precio = ?, imagen = ?, activo = ? WHERE id = ?";
 
