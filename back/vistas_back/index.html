@@ -85,9 +85,14 @@
                 const data = await response.json();
 
                 // filtramos los codigo fuera del rango 200, ej 404 550
-                if(!response.ok){
+                if (!response.ok) {
+                console.log(data.message);
 
-                }
+                    mostrarErrorDiscos(data.message);
+                    mostrarErrorHardware(data.message);
+
+                return;
+}
                 const productos = data.payload;
 
                 // Un bloque por categoría
@@ -96,6 +101,7 @@
 
             } catch (error) {
                 console.error("Error al obtener productos: ", error);
+                return mostrarError("Error de conexion con el servidor");
             }
         }
 

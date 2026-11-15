@@ -52,6 +52,7 @@ function validarId(req, res, next) {
         return res.status(400).json({ message: "El id debe ser un número entero positivo." });
     }
 
+    req.id = id;
     next();
 }
 
@@ -86,10 +87,17 @@ app.get("/api/productos", async (req, res) => {
 GET (por ID)
 ==========*/
 app.get("/api/productos/:id", validarId, async (req, res) => {
-    const id = req.params.id;
 
     try {
-        const [rows] = await connection.query("SELECT * FROM productos WHERE id = ?", [id]);
+        const sql = ` SELECT * FROM productos WHERE productos.id = ?`
+        const [rows] = await connection.query(sql, [req.id]); // reemplaza el placeholders
+        // si no se encuentra el id
+        if (rows.length === 0){
+            return res.status(404).json({
+                message: `No se encontro producto con id ${req.id}`
+            })
+        }
+
         res.status(200).json({ payload: rows });
 
     } catch (error) {
