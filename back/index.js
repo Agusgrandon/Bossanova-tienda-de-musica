@@ -60,7 +60,7 @@ function validarId(req, res, next) {
 Endpoints (URL + HTTP + LOGICA)
 =============================*/
 app.get("/", (req, res) =>{
-    res.send("sdbfjkhsbdcfkjscdksjfhdc")
+    res.send("servidor funcionando :) ")
 });
 
 
@@ -110,13 +110,16 @@ app.get("/api/productos/:id", validarId, async (req, res) => {
 POST 
 ==*/
 app.post("/api/productos", validarProducto, async (req, res) => {
-    const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
 
     try {
+        const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
         const sql = "INSERT INTO productos (nombre, artista, tipo, categoria, precio, imagen) VALUES (?, ?, ?, ?, ?, ?)";
         await connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen]);
 
-        res.status(201).json({ message: "Producto creado." });
+        res.status(201).json({ 
+            message: "Producto creado exitosamente.",
+            productoId: rows.insertId
+        });
 
     } catch (error) {
         console.error("Error al crear producto: ", error);
@@ -151,17 +154,16 @@ app.put("/api/productos/:id", validarId, validarProducto, async (req, res) => {
 DELETE (baja lógica)
 ==================*/
 app.delete("/api/productos/:id", validarId, async (req, res) => {
-    const id = req.params.id;
-
+   
     try {
         const sql = "UPDATE productos SET activo = 0 WHERE id = ?";
-        const [result] = await connection.query(sql, [id]);
+        await connection.query(sql, [id]);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Producto no encontrado." });
         }
 
-        res.status(200).json({ message: "Producto dado de baja." });
+        res.status(200).json({ message: `Producto con id ${id} dado de baja.` });
 
     } catch (error) {
         console.error("Error al dar de baja producto: ", error);
