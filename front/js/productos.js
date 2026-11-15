@@ -28,28 +28,38 @@ const botonSiguiente = document.getElementById("boton-siguiente");
 const contadorPaginas = document.getElementById("contador-paginas");
 let categoriaActual = "discos";
 let paginaActual= 1;
+let productosPagina = [];
 
 function renderizar(productos) {
-    contenedorCards.innerHTML = productos.map(producto => `
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <article class="card">
-                <img src="assets/productos/${producto.imagen}" alt="${producto.nombre}" width="250" height="250">
-                <div class="card-datos">
-                    <span class="card-tipo">${producto.tipo}</span>
-                    <h2 class="card-nombre">${producto.nombre}</h2>
-                    ${producto.artista ? `<p class="card-artista">${producto.artista}</p>` : ""}
-                    <p class="card-precio">$${Number(producto.precio).toLocaleString("es-AR")}</p>
-                    <button type="button" class="boton" data-id="${producto.id}">Agregar</button>
-                </div>
-            </article>
-        </div>
-    `).join("");
+    const carrito = leerCarrito();
+
+    contenedorCards.innerHTML = productos.map(producto => {
+        const enCarrito = carrito.some(item => item.id === producto.id);
+
+        return `
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <article class="card">
+                    <img src="assets/productos/${producto.imagen}" alt="${producto.nombre}" width="250" height="250">
+                    <div class="card-datos">
+                        <span class="card-tipo">${producto.tipo}</span>
+                        <h2 class="card-nombre">${producto.nombre}</h2>
+                        ${producto.artista ? `<p class="card-artista">${producto.artista}</p>` : ""}
+                        <p class="card-precio">$${Number(producto.precio).toLocaleString("es-AR")}</p>
+                        <button type="button" class="boton ${enCarrito ? "boton-secundario" : ""}" data-id="${producto.id}">
+                            ${enCarrito ? "Quitar" : "Agregar"}
+                        </button>
+                    </div>
+                </article>
+            </div>
+        `;
+    }).join("");
 }
 
 async function cargar() {
     try {
         const respuesta = await obtenerProductos(categoriaActual, paginaActual);
-        renderizar(respuesta.payload);
+        productosPagina = respuesta.payload;
+        renderizar(productosPagina);
         const totalPaginas = Math.max(1, Math.ceil(respuesta.total / productosPorPagina));
         contadorPaginas.textContent = `Página ${paginaActual} de ${totalPaginas}`;
         
@@ -88,6 +98,32 @@ botonAnterior.addEventListener("click", async () => {
     paginaActual--;
     await cargar();
     selectorCategorias.scrollIntoView({ behavior: "smooth" });
+});
+
+contenedorCards.addEventListener("click", (e) => {
+    const id = Number(e.target.dataset.id);
+    if (!id) return; // el clic no fue en un botón con data-id
+
+    const carrito = leerCarrito();
+    const enCarrito = carrito.some(item => item.id === id);
+
+    if (enCarrito) {
+        guardarCarrito(carrito.filter(item => item.id !== id));
+    } else {
+        const producto = productosPagina.find(p => p.id === id);
+        carrito.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            artista: producto.artista,
+            tipo: producto.tipo,
+            imagen: producto.imagen,
+            precio: Number(producto.precio),
+            cantidad: 1
+        });
+        guardarCarrito(carrito);
+    }
+
+    renderizar(productosPagina);
 });
 
 /*===============
