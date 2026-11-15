@@ -289,7 +289,7 @@ Cards
     padding: 20px;
 }
 
-.card-datos h2, .card-datos p {
+.card-datos h2, .card-datos p, .item-datos h2, .item-datos p {
     margin: 0;
 }
 
@@ -329,6 +329,83 @@ Cards
 
 .card-datos .boton {
     margin-top: 6px;
+}
+
+/*=====
+Carrito
+=====*/
+#carrito-vacio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-block: 48px;
+    font-size: 1.2rem;
+}
+
+#container-carrito .card-datos {
+    padding: 12px;
+    gap: 8px;
+}
+
+#container-carrito .card-nombre {
+    font-size: 1.05rem;
+}
+
+#container-carrito .item-cantidad .boton {
+    padding: 6px 12px;
+}
+
+.item-cantidad {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.item-subtotal {
+    font-weight: 500;
+}
+
+.resumen-carrito {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-block: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--borde);
+}
+
+.resumen-carrito p {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+dialog {
+    width: min(90%, 380px);
+    padding: 24px;
+    background: var(--superficie);
+    color: var(--texto);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    text-align: center;
+}
+
+dialog::backdrop {
+    background: rgb(0 0 0 / 0.6);
+}
+
+dialog h2 {
+    margin-top: 0;
+}
+
+dialog form {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
 }
 
 /*====

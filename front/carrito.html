@@ -49,32 +49,52 @@
 
         <main class="container">
             <h1>Tu carrito</h1>
+            
+            <section class="row g-4" id="container-carrito">
+                <!--Items generados en carrito.js. Estos son de prueba:-->
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <article class="card">
+                        <img src="assets/productos/a-star-named-sun.webp" alt="A Star Named Sun" width="250" height="250">
+                        <div class="card-datos">
+                            <span class="card-tipo">Vinilo</span>
+                            <h2 class="card-nombre">A Star Named Sun</h2>
+                            <p class="card-artista">Kinó</p>
+                            <p class="card-precio">$90.000</p>
 
-            <ul id="container-carrito">
-                <!--Carrito generado en carrito.js-->
-                <li class="item-carrito">
-                    <img src="assets/productos/a-star-named-sun.webp" alt="A Star Named Sun" width="100" height="100">
+                            <div class="item-cantidad">
+                                <button class="boton boton-secundario" type="button" data-id="5" aria-label="Restar uno">−</button>
+                                <span>1</span>
+                                <button class="boton boton-secundario" type="button" data-id="5" aria-label="Sumar uno">+</button>
+                            </div>
 
-                    <div class="item-datos">
-                        <span class="card-tipo">Vinilo</span>
-                        <h2 class="card-nombre">A Star Named Sun</h2>
-                        <p class="card-artista">Kinó</p>
-                        <p class="card-precio">$90.000</p>
-                    </div>
-                    
-                    <div class="item-cantidad">
-                        <button class="boton boton-secundario" type="button" data-id="5" aria-label="Restar uno">-</button>
-                        <span>1</span>
-                        <button class="boton boton-secundario" type="button" data-id="5" aria-label="Sumar uno">+</button>
-                    </div>
+                            <p class="item-subtotal">Subtotal: $90.000</p>
+                            <button class="boton" type="button" data-id="5">Eliminar</button>
+                        </div>
+                    </article>
+                </div>
 
-                    <p class="item-subtotal">$90.000</p>
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <article class="card">
+                        <img src="assets/productos/ath-m20x.webp" alt="Audio-Technica ATH-M20x" width="250" height="250">
+                        <div class="card-datos">
+                            <span class="card-tipo">Auriculares</span>
+                            <h2 class="card-nombre">Audio-Technica ATH-M20x</h2>
+                            <p class="card-precio">$150.000</p>
 
-                    <button class="boton" type="button" data-id="5">Eliminar</button>
-                </li>
-            </ul>
+                            <div class="item-cantidad">
+                                <button class="boton boton-secundario" type="button" data-id="25" aria-label="Restar uno">−</button>
+                                <span>2</span>
+                                <button class="boton boton-secundario" type="button" data-id="25" aria-label="Sumar uno">+</button>
+                            </div>
 
-            <p id="carrito-vacio">Tu carrito está vacío. <a href="productos.html">Ver el catálogo</a></p>
+                            <p class="item-subtotal">Subtotal: $300.000</p>
+                            <button class="boton" type="button" data-id="25">Eliminar</button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <p id="carrito-vacio">Tu carrito está vacío. <a class="boton" href="productos.html">Ver el catálogo</a></p>
 
             <section class="resumen-carrito">
                 <p>Total: <span id="total-carrito">$90.000</span></p>
@@ -96,5 +116,8 @@
                 <p class="nombres-alumnos">Agustina Grandon - Mateo Rapetti</p>
             </div>
         </footer>
+
+        <script src="js/storage-carrito.js"></script>
+        <script src="js/productos.js"></script>
     </body>
 </html>
