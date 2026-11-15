@@ -67,6 +67,13 @@ app.get("/", (req, res) =>{
 app.get("/api/productos", async (req, res) => {
     try {
         const [rows] = await connection.query("SELECT * FROM productos");
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                message: "No se encontraron productos"
+            });
+        }
+
         res.status(200).json({ payload: rows });
 
     } catch (error) {

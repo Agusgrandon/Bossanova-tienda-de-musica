@@ -71,10 +71,23 @@
         const contenedorDiscos = document.getElementById("contenedor-discos");
         const contenedorHardware = document.getElementById("contenedor-hardware");
 
+        function mostrarErrorDiscos(mensaje){
+            contenedorDiscos.innerHTML = `<p class= "mensajeError">${mensaje}</p> `;
+        }
+
+        function mostrarErrorHardware(mensaje){
+            contenedorHardware.innerHTML = `<p class= "mensajeError">${mensaje}</p> `;
+        }
+
         async function obtenerProductos() {
             try {
                 const response = await fetch(`${urlBase}/api/productos`);
                 const data = await response.json();
+
+                // filtramos los codigo fuera del rango 200, ej 404 550
+                if(!response.ok){
+
+                }
                 const productos = data.payload;
 
                 // Un bloque por categoría
