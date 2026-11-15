@@ -158,6 +158,12 @@
                         <label for="precioProducto">Precio</label>
                         <input type="number" name="precio" id="precioProducto" min="1" value="${producto.precio}" required>
 
+                        <label for="activeProd">Estado</label>
+                        <select name="active" id="activeProd" required>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+
                         <button type="submit" class="boton">Guardar cambios</button>
                     </form>
                 `;
