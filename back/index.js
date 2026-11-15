@@ -131,12 +131,13 @@ app.post("/api/productos", validarProducto, async (req, res) => {
 PUT 
 =*/
 app.put("/api/productos/:id", validarId, validarProducto, async (req, res) => {
-    const id = req.params.id;
-    const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
-
+   
     try {
+        const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
+
         const sql = "UPDATE productos SET nombre = ?, artista = ?, tipo = ?, categoria = ?, precio = ?, imagen = ? WHERE id = ?";
-        const [result] = await connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen, id]);
+
+        await connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen, id]);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Producto no encontrado." });

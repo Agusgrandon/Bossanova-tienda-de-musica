@@ -77,6 +77,11 @@
             const contenedorForm = document.getElementById("contenedor-form");
             const getProductForm = document.getElementById("getProductForm");
 
+            function mostrarMensaje(tipo, mensaje) {
+                contenedorProductos.innerHTML = `
+                    <p class="mensaje ${tipo}">${mensaje}</p>
+                `;
+            }
             // 1. Buscar producto por id
             getProductForm.addEventListener("submit", async (event) => {
                 event.preventDefault();
@@ -87,16 +92,19 @@
                 try {
                     const response = await fetch(`${urlBase}/api/productos/${idProd}`);
                     const data = await response.json();
-                    const producto = data.payload[0];
 
-                    if (!producto) {
-                        contenedorProductos.innerHTML = `<p class="col-12 text-center">No existe un producto con id ${idProd}</p>`;
-                        return;
+                    if (!response.ok) {
+                        console.error(data.message);
+                        return mostrarMensaje("error", data.message);
                     }
 
+                    const producto = data.payload[0];
+
                     renderizarProducto(producto);
+
                 } catch (error) {
                     console.error("Error al obtener producto: ", error);
+                    return mostrarMensaje("error", "Error de conexion con el servidor");
                 }
             });
 
