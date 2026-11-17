@@ -1,4 +1,3 @@
-import  connection from "../database/db.js";
 import ProductModels from "../models/product.models.js";
 
 /*==========
