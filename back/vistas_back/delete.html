@@ -78,7 +78,7 @@
                     <p class="mensaje ${tipo}">${mensaje}</p>
                 `;
             }
-            // 1. Buscar producto por id
+            // Buscar producto por id
             getProductForm.addEventListener("submit", async (event) => {
                 event.preventDefault();
 
@@ -107,7 +107,7 @@
                 }
             });
 
-            // 2. Card con botón Eliminar (si está activo) o Activar (si está inactivo)
+            // Card con botón Eliminar (si está activo) o Activar (si está inactivo)
             function renderizarProducto(producto) {
                 contenedorProductos.innerHTML = `
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
@@ -127,7 +127,7 @@
 
                 const accion = producto.activo ? "eliminar" : "activar";
 
-                // 3. Confirmación con confirm() (como el profe)
+                // Confirmación con confirm()
                 document.getElementById("btn-estado").addEventListener("click", () => {
                     const confirmacion = confirm(`¿Seguro que querés ${accion} "${producto.nombre}"?`);
 
@@ -141,7 +141,7 @@
                 });
             }
 
-            // 4a. Baja lógica: DELETE (en el back hace UPDATE activo = 0)
+            // Baja lógica
             async function eliminarProducto(id) {
                 try {
                     const response = await fetch(`${urlBase}/api/productos/${id}`, {
@@ -149,13 +149,13 @@
                     });
                     const data = await response.json();
                     alert(data.message);
-                    getProductForm.requestSubmit(); // vuelve a buscar: muestra la card en gris
+                    getProductForm.requestSubmit();
                 } catch (error) {
                     console.error("Error al eliminar producto: ", error);
                 }
             }
 
-            // 4b. Activar: PATCH (en el back hace UPDATE activo = 1)
+            // Activar: PATCH
             async function activarProducto(id) {
                 try {
                     const response = await fetch(`${urlBase}/api/productos/${id}/activar`, {
@@ -163,7 +163,7 @@
                     });
                     const data = await response.json();
                     alert(data.message);
-                    getProductForm.requestSubmit(); // vuelve a buscar: muestra la card activa
+                    getProductForm.requestSubmit();
                 } catch (error) {
                     console.error("Error al activar producto: ", error);
                 }
