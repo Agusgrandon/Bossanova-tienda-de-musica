@@ -10,22 +10,22 @@ Validación de productos
 function validarProducto(req, res, next) {
     const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
 
-    // Validación de categoría.
+    // Validación de categoría
     if (!["discos", "hardware"].includes(categoria)) {
         return res.status(400).json({ message: "Categoria inválida." });
     }
 
-    // Validación de nombre, tipo e imagen.
+    // Validación de nombre, tipo e imagen
     if (!nombre?.trim() || !tipo?.trim() || !imagen?.trim()) {
         return res.status(400).json({ message: "Nombre, tipo e imagen no pueden estar vacíos." });
     }
 
-    // Validación de precio.
+    // Validación de precio
     if (!(Number(precio) > 0)) {
         return res.status(400).json({ message: "El precio debe ser mayor a 0." });
     }
 
-    // Artista: null si es hardware o si viene vacío.
+    // Artista: null si es hardware o si viene vacío
     req.body.artista = (categoria === "hardware" || !artista?.trim()) ? null : artista.trim();
 
     next();

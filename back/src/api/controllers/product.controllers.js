@@ -73,9 +73,9 @@ export const modificarProducto = async (req, res) => {
     try {
         const id = req.id;
 
-        const { nombre, artista, tipo, categoria, precio, imagen, activo } = req.body;
+        const { nombre, artista, tipo, categoria, precio, imagen } = req.body;
 
-        const [result] = await ProductModels.modificarProducto(nombre, artista, tipo, categoria, precio, imagen, activo, id);
+        const [result] = await ProductModels.modificarProducto(nombre, artista, tipo, categoria, precio, imagen, id);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Producto no encontrado." });
@@ -89,14 +89,14 @@ export const modificarProducto = async (req, res) => {
     }
 }
 
-/*==================
-DELETE (baja lógica)
-==================*/
+/*=========
+BAJA LÓGICA
+=========*/
 export const eliminarProducto = async (req, res) => {
-   
+    const id = req.id;
+
     try {
-        const sql = "UPDATE productos SET activo = 0 WHERE id = ?";
-        await connection.query(sql, [id]);
+        const [result] = await ProductModels.cambiarEstado(id, 0);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Producto no encontrado." });
@@ -110,15 +110,14 @@ export const eliminarProducto = async (req, res) => {
     }
 }
 
-/*=============
-PATCH (activar)
-=============*/
+/*==============
+ACTIVAR PRODUCTO
+==============*/
 export const activarProducto = async (req, res) => {
-    const id = req.params.id;
+    const id = req.id;
 
     try {
-        const sql = "UPDATE productos SET activo = 1 WHERE id = ?";
-        const [result] = await connection.query(sql, [id]);
+        const [result] = await ProductModels.cambiarEstado(id, 1);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Producto no encontrado." });

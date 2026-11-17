@@ -27,14 +27,25 @@ const crearProducto = (nombre, artista, tipo, categoria, precio, imagen) =>{
 /*=
 PUT 
 =*/
-const modificarProducto = (nombre, artista, tipo, categoria, precio, imagen, activo, id) =>{
-        const sql = "UPDATE productos SET nombre = ?, artista = ?, tipo = ?, categoria = ?, precio = ?, imagen = ?, activo = ? WHERE id = ?";
-        return connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen, activo, id]);
+const modificarProducto = (nombre, artista, tipo, categoria, precio, imagen, id) =>{
+        const sql = "UPDATE productos SET nombre = ?, artista = ?, tipo = ?, categoria = ?, precio = ?, imagen = ? WHERE id = ?";
+        return connection.query(sql, [nombre, artista, tipo, categoria, precio, imagen, id]);
+}
+
+/*============================
+BAJA LÓGICA / ACTIVAR PRODUCTO
+============================*/
+const cambiarEstado = (id, activo) => {
+        const sql = "UPDATE productos SET activo = ? WHERE id = ?";
+        return connection.query(sql, [activo, id]);
 }
 
 export default{
     seleccionarProductos,
     seleccionarPorId,
     crearProducto,
-    modificarProducto
+    modificarProducto,
+    cambiarEstado
 }
+
+

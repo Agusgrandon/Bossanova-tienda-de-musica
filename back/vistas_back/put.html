@@ -82,7 +82,7 @@
                     <p class="mensaje ${tipo}">${mensaje}</p>
                 `;
             }
-            // 1. Buscar producto por id
+            // Buscar producto por id
             getProductForm.addEventListener("submit", async (event) => {
                 event.preventDefault();
 
@@ -108,7 +108,7 @@
                 }
             });
 
-            // 2. Card con botón Modificar
+            // Card con botón Modificar
             function renderizarProducto(producto) {
                 contenedorProductos.innerHTML = `
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
@@ -131,7 +131,7 @@
                 });
             }
 
-            // 3. Form precargado con los datos actuales
+            // Form precargado con los datos actuales
             function renderizarFormularioPut(producto) {
                 const esHardware = producto.categoria === "hardware";
 
@@ -159,12 +159,6 @@
                         <label for="precioProducto">Precio</label>
                         <input type="number" name="precio" id="precioProducto" min="1" value="${producto.precio}" required>
 
-                        <label for="activeProd">Estado</label>
-                        <select name="activo" id="activeProd" required>
-                            <option value="1">Activo</option>
-                            <option value="0">Inactivo</option>
-                        </select>
-
                         <button type="submit" class="boton">Guardar cambios</button>
                     </form>
                 `;
@@ -184,7 +178,7 @@
                     }
                 });
 
-                // 4. Enviar el PUT
+                // Enviar el PUT
                 document.getElementById("modifyProductForm").addEventListener("submit", async (event) => {
                     event.preventDefault();
                     const formObj = Object.fromEntries(new FormData(event.target).entries());

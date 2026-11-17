@@ -1,7 +1,7 @@
 import express from "express";
 import environments from "./src/api/config/environments.js";
 import cors from "cors";
-import { loggerUrl, validarId, validarProducto } from "./src/api/middlewares/middlewares.js";
+import { loggerUrl } from "./src/api/middlewares/middlewares.js";
 import { productRoutes } from "./src/api/routes/index.js";
 
 const app = express();
