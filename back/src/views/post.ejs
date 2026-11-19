@@ -1,0 +1,48 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+        
+    <main class="container">
+        <h1>Crear producto</h1>
+
+        <form class="formulario" id="createProductForm">
+            <label for="categoriaProducto">Categoria</label>
+            <select name="categoria" id="categoriaProducto" required>
+                <option value="discos">Discos</option>
+                <option value="hardware">Hardware</option>
+            </select>
+
+            <label for="tipo">Tipo</label>
+            <input type="text" id="tipo" name="tipo" list="tipo-lista" required>
+            <datalist id="tipo-lista">
+                <option value="CD">CD</option>
+                <option value="Vinilo">Vinilo</option>
+                <option value="Amplificador">Amplificador</option>
+                <option value="Auriculares">Auriculares</option>
+                <option value="Casetera">Casetera</option>
+                <option value="Compresor">Compresor</option>
+                <option value="Monitoreo">Monitoreo</option>
+                <option value="Parlante">Parlante</option>
+                <option value="Placa de audio">Placa de audio</option>
+                <option value="Preamplificador">Preamplificador</option>
+                <option value="Tocadiscos">Tocadiscos</option>
+            </datalist>
+
+            <label for="imagenProducto">Imagen</label>
+            <input type="text" name="imagen" id="imagenProducto" required>
+
+            <label for="nombreProducto">Nombre</label>
+            <input type="text" name="nombre" id="nombreProducto" required>
+
+            <label for="artistaProducto">Artista</label>
+            <input type="text" name="artista" id="artistaProducto">
+
+            <label for="precioProducto">Precio</label>
+            <input type="number" name="precio" id="precioProducto" min="1" required>
+
+            <button type="submit" class="boton">Crear producto</button>
+        </form>
+    </main>
+
+    <script src="/js/post.js"></script>
+        
+<%- include("partials/footer.ejs") %>

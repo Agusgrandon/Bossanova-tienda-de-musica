@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { vistaPrincipal } from "../controllers/view.controllers.js";
+import { vistaPrincipal, vistaConsultar, vistaCrear, vistaModificar, vistaBaja } from "../controllers/view.controllers.js";
 
 const router = Router();
 
@@ -7,5 +7,25 @@ const router = Router();
 VISTA PRINCIPAL 
 =============*/
 router.get("/principal/", vistaPrincipal);
+
+/*=============
+VISTA CONSULTAR 
+=============*/
+router.get("/consultar", vistaConsultar);
+
+/*=========
+VISTA CREAR
+=========*/
+router.get("/crear", vistaCrear);
+
+/*=============
+VISTA MODIFICAR 
+=============*/
+router.get("/modificar", vistaModificar);
+
+/*========
+VISTA BAJA
+========*/
+router.get("/baja", vistaBaja);
 
 export default router;
