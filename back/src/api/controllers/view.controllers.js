@@ -33,7 +33,6 @@ VISTA CREAR
 export const vistaCrear = (req, res) => {
     res.render("post", {
         title: "Crear",
-        about: "Crear producto"
     });
 }
 
@@ -43,7 +42,6 @@ VISTA MODIFICAR
 export const vistaModificar = (req,res) => {
     res.render("put", {
         title: "Modificar",
-        about: "Modificar producto"
     })
 }
 
@@ -53,6 +51,5 @@ VISTA BAJA
 export const vistaBaja = (req,res) => {
     res.render("delete", {
         title:"Baja/Alta",
-        about:"Baja/Alta logica"
     })
 }

@@ -6,7 +6,7 @@ const router = Router();
 /*=============
 VISTA PRINCIPAL 
 =============*/
-router.get("/principal/", vistaPrincipal);
+router.get("/principal", vistaPrincipal);
 
 /*=============
 VISTA CONSULTAR 
