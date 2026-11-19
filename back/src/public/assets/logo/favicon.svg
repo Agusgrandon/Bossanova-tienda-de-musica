@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 -7 112 112">
+<defs>
+<clipPath id="frente" clipPathUnits="userSpaceOnUse"><rect x="-70" y="0" width="140" height="40"/></clipPath>
+<clipPath id="esfera" clipPathUnits="userSpaceOnUse"><circle r="27"/></clipPath>
+<g id="disco"><path d="M-57,0a57,17 0 1,0 114,0a57,17 0 1,0-114,0ZM-29,0a29,8.65 0 1,0 58,0a29,8.65 0 1,0-58,0Z" fill-rule="evenodd" fill="#1E1716" stroke="#8A8A92" stroke-width="3"/></g>
+</defs>
+<g transform="translate(60 60) rotate(-18)">
+<use href="#disco"/>
+<circle r="27" fill="#9E2616"/><circle cx="-2.5" cy="-2.5" r="23.4" fill="#C8321E"/>
+<g clip-path="url(#esfera)" fill="none" stroke="#E36A45" stroke-linecap="round"><path d="M-30,-14 Q0,-6 30,-14" stroke-width="2.4"/><path d="M-30,-21 Q0,-14 30,-21" stroke-width="1.4"/></g>
+<use href="#disco" clip-path="url(#frente)"/>
+</g>
+<path d="M107,17 L101,43 L94,52" fill="none" stroke="#B4B4BC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M90,50 L97.5,53.5 L95.5,58 L88,54.5Z" fill="#B4B4BC"/>
+<circle cx="107" cy="17" r="6.5" fill="#B4B4BC"/><circle cx="107" cy="17" r="2.4" fill="#2A0E0C"/>
+</svg>

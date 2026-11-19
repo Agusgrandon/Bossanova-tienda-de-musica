@@ -1,0 +1,352 @@
+* {
+    box-sizing: border-box;
+}
+
+/*======== 
+Tema claro 
+========*/
+:root {
+    color-scheme: light;
+    --fondo: #F3E6D8;
+    --superficie: #FFF8F0;
+    --texto: #2A0E0C;
+    --titulo: #A8241A;
+    --borde: #7A7A82;
+    --boton: #9C4A3A;
+    --texto-boton: #FFFFFF;
+    --destacado: #466326;
+}
+
+/*=========
+Tema oscuro
+=========*/
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --fondo: #150808;
+    --superficie: #3A0F10;
+    --texto: #F3E6D8;
+    --titulo: #F2A25C;
+    --borde: #C9C9CF;
+    --boton: #F2A25C;
+    --texto-boton: #150808;
+    --destacado: #9BC26B;
+}
+
+/*=======
+Generales 
+=======*/
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--fondo);
+    color: var(--texto);
+}
+
+main {
+    flex: 1;
+}
+
+h1, h2, h3 {
+    font-family: 'Syne', sans-serif;
+    color: var(--titulo);
+}
+
+h1 {
+    font-weight: 800;
+    font-size: clamp(1.8rem, 6vw, 3rem);
+}
+
+.destacado {
+    color: var(--destacado);
+}
+
+:focus-visible {
+    outline: 2px solid var(--titulo);
+    outline-offset: 2px;
+}
+
+/*=====
+Botones
+=====*/
+.boton {
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    background: var(--boton);
+    color: var(--texto-boton);
+    cursor: pointer;
+    transition: filter 0.2s;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
+
+.boton:hover {
+    filter: brightness(0.9);
+}
+
+.boton:active {
+    filter: brightness(0.8);
+}
+
+.boton-secundario {
+    background: transparent;
+    color: var(--texto);
+    border-color: var(--borde);
+}
+
+.boton-secundario:hover {
+    background: var(--superficie);
+    filter: none;
+}
+
+.boton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: none;
+}
+
+/*============
+Logo por temas 
+============*/
+.solo-oscuro {
+    display: none;
+}
+
+:root[data-theme="dark"] .solo-claro {
+    display: none;
+}
+
+:root[data-theme="dark"] .solo-oscuro {
+    display: inline;
+}
+
+/*====
+Header
+====*/
+.header {
+    padding-block: 12px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.header-acciones {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header .boton {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+}
+
+.header-logo img {
+    width: 150px;
+    height: auto;
+}
+
+/*==========================
+Menú hamburguesa (backoffice)
+==========================*/
+.menu-admin {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    flex-basis: 100%;
+    order: 1;         
+}
+
+.menu-admin.abierto {
+    display: flex;
+}
+
+@media (min-width: 992px) {
+    .boton-menu {
+        display: none;
+    }
+
+    .menu-admin {
+        display: flex;
+        flex-direction: row;
+        flex-basis: auto;
+        order: 0;
+    }
+}
+
+/*========
+Bienvenida
+========*/
+.bienvenida {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 80px;
+    text-align: center;
+}
+
+.bienvenida h1 {
+    margin: 0 0 8px;
+}
+
+.bienvenida p {
+    margin: 0;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 360px;
+    margin: 32px auto 0;
+    text-align: left;
+}
+
+.formulario label {
+    font-weight: 500;
+}
+
+.formulario input, .formulario select {
+    font: inherit;
+    padding: 10px 12px;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    background: var(--superficie);
+    color: var(--texto);
+}
+
+.formulario input::placeholder {
+    color: var(--texto);
+    opacity: 0.6;
+}
+
+.formulario .boton {
+    align-self: center;
+    padding: 12px 40px;
+    font-size: 1.1rem;
+}
+
+/*======
+Catálogo
+======*/
+.selector-categorias, .paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.selector-categorias {
+    margin-bottom: 32px;
+}
+
+.selector-categorias .boton[aria-pressed="true"] {
+    filter: brightness(0.7);
+}
+
+.paginacion {
+    margin-block: 40px;
+}
+
+/*===
+Cards
+===*/
+.card {
+    display: flex;
+    flex-direction: column;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.card img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.card-datos {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+    padding: 20px;
+}
+
+.card-datos h2, .card-datos p {
+    margin: 0;
+}
+
+.card-tipo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    color: var(--destacado);
+    background-color: color-mix(in srgb, var(--destacado) 20%, transparent);
+    border-radius: 999px;
+    align-self: flex-start;
+}
+
+.card-inactiva {
+    opacity: 0.5;
+}
+
+.card-inactiva img {
+    filter: grayscale(1);
+}
+
+.card-inactivo {
+    color: var(--borde);
+    background-color: color-mix(in srgb, var(--borde) 20%, transparent);
+}
+
+.card-nombre {
+    font-size: 1.3rem;
+    line-height: 1.2;
+}
+
+.card-datos .card-precio {
+    margin-top: auto;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.card-datos .boton {
+    margin-top: 6px;
+}
+
+/*====
+Footer
+====*/
+.footer {
+    padding-block: 16px;
+    border-top: 1px solid var(--borde);
+    text-align: center;
+}
+
+.nombres-alumnos {
+    font-size: 12px;
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    .header-logo img {
+        width: 206px;
+    }
+}
