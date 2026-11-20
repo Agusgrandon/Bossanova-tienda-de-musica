@@ -16,6 +16,14 @@ const seleccionarPorId = (id) => {
         return connection.query(sql, [id]);
 }
 
+/*================
+GET (solo activos)
+================*/
+const seleccionarActivos = () => {
+    const sql = "SELECT * FROM productos WHERE activo = ?";
+    return connection.query(sql, [1]);
+}
+
 /*==
 POST 
 ==*/
@@ -43,6 +51,7 @@ const cambiarEstado = (id, activo) => {
 export default{
     seleccionarProductos,
     seleccionarPorId,
+    seleccionarActivos,
     crearProducto,
     modificarProducto,
     cambiarEstado

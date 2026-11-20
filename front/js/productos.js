@@ -1,7 +1,7 @@
 /* =============================================================
 Productos desde la API. Filtrado y paginación.
 ==============================================================*/
-const URL_API = "http://localhost:3000/api/productos";
+const URL_API = "http://localhost:3000/api/productos/activos";
 const productosPorPagina = 12;
 
 async function obtenerProductos(categoria, pagina) {
@@ -12,8 +12,7 @@ async function obtenerProductos(categoria, pagina) {
     }
 
     const datos = await respuesta.json();
-    // Provisorio: sacar cuando el back filtre con WHERE activo = 1
-    const filtrados = datos.payload.filter(producto => producto.categoria === categoria && producto.activo);
+    const filtrados = datos.payload.filter(producto => producto.categoria === categoria);
     const inicio = (pagina - 1) * productosPorPagina;
 
     return {

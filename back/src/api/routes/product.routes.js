@@ -1,7 +1,7 @@
 // rutas de los productos
 import { Router } from "express";
 import { validarId, validarProducto } from "../middlewares/middlewares.js";
-import { activarProducto, crearProducto, eliminarProducto, modificarProducto, obtenerProductoId, obtenerProductos } from "../controllers/product.controllers.js";
+import { activarProducto, crearProducto, eliminarProducto, modificarProducto, obtenerProductoId, obtenerProductos, obtenerProductosActivos } from "../controllers/product.controllers.js";
 
 const router = Router();
 
@@ -9,6 +9,11 @@ const router = Router();
 GET TODOS LOS PRODUCTOS
 ==========*/
 router.get("/", obtenerProductos);
+
+/*================
+GET (solo activos)
+================*/
+router.get("/activos", obtenerProductosActivos);
 
 /*==========
 GET (por ID)
