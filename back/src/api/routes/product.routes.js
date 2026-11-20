@@ -5,9 +5,9 @@ import { activarProducto, crearProducto, eliminarProducto, modificarProducto, ob
 
 const router = Router();
 
-/*==========
+/*=====================
 GET TODOS LOS PRODUCTOS
-==========*/
+=====================*/
 router.get("/", obtenerProductos);
 
 /*================

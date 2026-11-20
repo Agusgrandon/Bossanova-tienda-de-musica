@@ -1,6 +1,6 @@
-/* =============================================================
+/* ===========================================
 Productos desde la API. Filtrado y paginación.
-==============================================================*/
+============================================*/
 const URL_API = "http://localhost:3000/api/productos/activos";
 const productosPorPagina = 12;
 
@@ -101,7 +101,7 @@ botonAnterior.addEventListener("click", async () => {
 
 contenedorCards.addEventListener("click", (e) => {
     const id = Number(e.target.dataset.id);
-    if (!id) return; // el clic no fue en un botón con data-id
+    if (!id) return;
 
     const carrito = leerCarrito();
     const enCarrito = carrito.some(item => item.id === id);
