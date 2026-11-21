@@ -1,7 +1,6 @@
-/*=======================================
-Carrito en localStorage (compartido entre
-productos.html y carrito.html)
-=======================================*/
+/*=====================================================
+Carrito en localStorage (productos.html y carrito.html)
+=====================================================*/
 const CLAVE_CARRITO = "carrito";
 
 function leerCarrito() {

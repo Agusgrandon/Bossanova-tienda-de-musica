@@ -1,8 +1,8 @@
 import ProductModels from "../models/product.models.js";
 
-/*==========
+/*=====================
 GET TODOS LOS PRODUCTOS
-==========*/
+=====================*/
 export const obtenerProductos = async (req, res) => {
     try {
         const [rows] = await ProductModels.seleccionarProductos();
@@ -40,6 +40,27 @@ export const obtenerProductoId = async (req, res) => {
 
     } catch (error) {
         console.error("Error al obtener producto: ", error);
+        res.status(500).json({ message: "Error interno del servidor." });
+    }
+}
+
+/*================
+GET (solo activos)
+================*/
+export const obtenerProductosActivos = async (req, res) => {
+    try {
+        const [rows] = await ProductModels.seleccionarActivos();
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                message: "No se encontraron productos activos."
+            });
+        }
+
+        res.status(200).json({ payload: rows });
+
+    } catch (error) {
+        console.error("Error al obtener productos: ", error);
         res.status(500).json({ message: "Error interno del servidor." });
     }
 }

@@ -1,0 +1,20 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+
+    <main class="container">
+        <h1>Modificar producto</h1>
+
+        <form class="formulario" id="getProductForm">
+            <label for="idProd">Id producto</label>
+            <input type="number" name="id" id="idProd" min="1" required>
+
+            <button type="submit" class="boton">Buscar</button>
+        </form>
+
+        <section class="row g-4 justify-content-center mt-4" id="contenedor-productos"></section>
+        <section id="contenedor-form"></section>
+    </main>
+    
+    <script src="/js/put.js"></script>
+        
+<%- include("partials/footer.ejs") %>

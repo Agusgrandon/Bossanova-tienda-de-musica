@@ -1,0 +1,16 @@
+<div class="col-12 col-sm-6 col-md-4 col-lg-3">
+    <article class="card <%= producto.activo ? "" : "card-inactiva" %>">
+    <img src="/assets/productos/<%= producto.imagen %>" alt="<%= producto.nombre %>" width="250" height="250">
+    <div class="card-datos">
+        <span class="card-tipo">#<%= producto.id %> · <%= producto.tipo %></span>
+        <h2 class="card-nombre"><%= producto.nombre %></h2>
+        <% if (producto.artista) { %>
+            <p class="card-artista"><%= producto.artista %></p>
+        <% } %>
+        <p class="card-precio">$<%= Number(producto.precio).toLocaleString("es-AR") %></p>
+        <% if (!producto.activo) { %>
+            <p class="card-tipo card-inactivo">Inactivo</p>
+        <% } %>
+    </div>
+    </article>
+</div>
