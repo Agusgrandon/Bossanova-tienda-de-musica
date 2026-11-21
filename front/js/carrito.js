@@ -1,6 +1,6 @@
-/*=====================================
+/*================================
 Carrito: render desde localStorage
-=====================================*/
+================================*/
 const contenedorCarrito = document.getElementById("container-carrito");
 const carritoVacio = document.getElementById("carrito-vacio");
 const resumenCarrito = document.querySelector(".resumen-carrito");
