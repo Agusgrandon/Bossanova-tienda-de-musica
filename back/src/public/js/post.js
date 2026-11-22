@@ -1,7 +1,12 @@
 const urlBase = "http://localhost:3000";
 const createProductForm = document.getElementById("createProductForm");
+const contenedorMensaje = document.getElementById("contenedor-mensaje");
 
-// Esconder el input de artista si se escoge la categoria Hardware.
+function mostrarMensaje(tipo, mensaje) {
+    contenedorMensaje.innerHTML = `
+        <p class="mensaje ${tipo}">${mensaje}</p>
+    `;
+}
 
 const selectCategoria = document.getElementById("categoriaProducto");
 const inputArtista = document.getElementById("artistaProducto");
@@ -29,13 +34,16 @@ try {
         },
         body: JSON.stringify(formObj)
     });
-    const data = await response.json(); 
-    alert(data.message);
+    const data = await response.json();
 
-    if (response.ok) {
-        window.location.href = "/dashboard/principal";
+    if (!response.ok) {
+        return mostrarMensaje("error", data.message);
     }
+
+    window.location.href = "/dashboard/principal";
+
 } catch (error) {
     console.error("Error al crear producto: ", error);
+    mostrarMensaje("error", "Error de conexion con el servidor");
 }
 })

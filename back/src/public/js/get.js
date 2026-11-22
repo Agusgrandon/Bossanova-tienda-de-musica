@@ -15,11 +15,9 @@ getProductForm.addEventListener("submit", async (event) =>{
         return mostrarError("Ingresa un id valido");
     }
 
-    try{
-
+    try {
         const response = await fetch(`${urlBase}/api/productos/${idProd}`);
         const data = await response.json();
-
 
         if (!response.ok) {
             console.error(data.message);
@@ -27,11 +25,11 @@ getProductForm.addEventListener("submit", async (event) =>{
         }
 
         const producto = data.payload[0];
-
         renderizarProducto(producto);
         
-    }catch (error) {
+    } catch (error) {
         console.error("Error al obtener producto: ", error);
+        mostrarError("Error de conexion con el servidor");
     }
 });
 
