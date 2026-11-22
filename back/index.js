@@ -2,7 +2,7 @@ import express from "express";
 import environments from "./src/api/config/environments.js";
 import cors from "cors";
 import { loggerUrl } from "./src/api/middlewares/middlewares.js";
-import { productRoutes, viewRoutes } from "./src/api/routes/index.js";
+import { productRoutes, viewRoutes, authRoutes } from "./src/api/routes/index.js";
 import { __dirname, join } from "./src/api/utils/index.js"
 
 const app = express();
@@ -23,6 +23,7 @@ app.get("/", (req, res) =>{
     res.send("servidor funcionando :) ")
 });
 
+app.use("/", authRoutes)
 app.use("/api/productos", productRoutes);
 app.use("/dashboard", viewRoutes);
 

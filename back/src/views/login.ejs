@@ -1,0 +1,22 @@
+<%- include("partials/head.ejs") %>
+
+<main class="container bienvenida">
+    <h1>Login</h1>
+    <form method="POST" class="formulario" action="/login">
+        
+        <label for="emailUser">Email</label>
+        <input type="email" name="email" id="emailUser" required>
+
+        <label for="passwordUser">Password</label>
+        <input type="password" name="password" id="passwordUser" required>
+
+        <button type="submit" class="boton">Login</button>
+    </form>
+
+    <% if (typeof error !== "undefined") { %>
+        <p class="mensaje error"> <%= error %> </p>
+    <% } %>
+</main>
+
+
+<%- include("partials/footer.ejs") %>
