@@ -2,7 +2,7 @@ import express from "express";
 import environments from "./src/api/config/environments.js";
 import cors from "cors";
 import { loggerUrl } from "./src/api/middlewares/middlewares.js";
-import { productRoutes, viewRoutes, authRoutes } from "./src/api/routes/index.js";
+import { productRoutes, viewRoutes, authRoutes, userRoutes} from "./src/api/routes/index.js";
 import { __dirname, join } from "./src/api/utils/index.js"
 
 const app = express();
@@ -13,6 +13,7 @@ app.set("views", join(__dirname, "src/views"));
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(loggerUrl);
 app.use(express.static(join(__dirname, "src/public")));
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) =>{
 });
 
 app.use("/", authRoutes)
+app.use("/api/usuarios", userRoutes)
 app.use("/api/productos", productRoutes);
 app.use("/dashboard", viewRoutes);
 

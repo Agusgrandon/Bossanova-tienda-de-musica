@@ -3,7 +3,7 @@
     <main class="container">
         <h1>Crear usuario</h1>
 
-        <form id="createUserForm" class="formulario" method="POST">
+        <form id="createUserForm" class="formulario" action="/api/usuarios" method="POST">
             <label for="nameUser">Nombre</label>
             <input type="text" name="nombre" id="nameUser" required>
 
@@ -15,9 +15,15 @@
 
             <button class="boton" type="submit">Crear</button>
         </form>
-        
-        <section class="row g-4 justify-content-center mt-4" id="contenedor-mensaje"></section>
 
+        <section class="row g-4 justify-content-center mt-4" id="contenedor-mensaje">
+            <% if (typeof message !== "undefined") { %>
+                <p class="mensaje"><%= message %></p>
+            <% } %>
+            <% if (typeof error !== "undefined") { %>
+                <p class="mensaje error"><%= error %></p>
+            <% } %>
+        </section>
     </main>
 
 <%- include("partials/footer.ejs") %>
