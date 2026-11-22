@@ -15,6 +15,7 @@ Tema claro
     --boton: #9C4A3A;
     --texto-boton: #FFFFFF;
     --destacado: #466326;
+    --error: #B3261E;
 
     /*Escala de espacios*/
     --espacio-xs: 0.25rem;
@@ -39,6 +40,7 @@ Tema oscuro
     --boton: #F2A25C;
     --texto-boton: #150808;
     --destacado: #9BC26B;
+    --error: #FF8A80;
 }
 
 /*=======
@@ -65,7 +67,7 @@ h1, h2, h3 {
 
 h1 {
     font-weight: 800;
-    font-size: clamp(1.8rem, 6vw, 3rem);
+    font-size: 2rem;
 }
 
 .destacado {
@@ -88,7 +90,7 @@ Botones
     font-family: inherit;
     font-weight: 500;
     font-size: 1rem;
-    padding: 0.625rem 1.25rem;
+    padding: var(--espacio-m) var(--espacio-xl);
     border-radius: 16px;
     border: 1px solid transparent;
     background: var(--boton);
@@ -102,10 +104,6 @@ Botones
 
 .boton:hover {
     filter: brightness(0.9);
-}
-
-.boton:active {
-    filter: brightness(0.8);
 }
 
 .boton-secundario {
@@ -129,7 +127,7 @@ Botones
 Logo por temas 
 ============*/
 .solo-oscuro {
-    display: none;
+    display: none; 
 }
 
 :root[data-theme="dark"] .solo-claro {
@@ -163,7 +161,7 @@ Header
 }
 
 .header .boton {
-    padding: 0.375rem 0.875rem;
+    padding: var(--espacio-s) var(--espacio-m);
     font-size: 0.9rem;
 }
 
@@ -235,22 +233,35 @@ Bienvenida
 
 .formulario input, .formulario select {
     font: inherit;
-    padding: 0.625rem 0.75rem;
+    padding: var(--espacio-s) var(--espacio-m);
     border: 1px solid var(--borde);
     border-radius: 8px;
     background: var(--superficie);
     color: var(--texto);
 }
 
-.formulario input::placeholder {
-    color: var(--texto);
-    opacity: 0.6;
-}
-
 .formulario .boton {
     align-self: center;
-    padding: 0.75rem 2.5rem;
+    padding: var(--espacio-m) var(--espacio-xxl);
     font-size: 1.1rem;
+}
+
+/*==============
+Mensaje de error
+==============*/
+.mensaje {
+    margin: 0;
+    width: auto;
+    max-width: 360px;
+    padding: var(--espacio-m) var(--espacio-l);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.error {
+    color: var(--error);
+    background-color: color-mix(in srgb, var(--error) 15%, transparent);
+    border: 1px solid var(--error);
 }
 
 /*======
@@ -309,7 +320,7 @@ Cards
 .card-tipo {
     font-size: 0.9rem;
     font-weight: 600;
-    padding: 0.25rem 0.625rem;
+    padding: var(--espacio-xs) var(--espacio-s);
     color: var(--destacado);
     background-color: color-mix(in srgb, var(--destacado) 20%, transparent);
     border-radius: 999px;
@@ -366,7 +377,7 @@ Carrito
 }
 
 #container-carrito .item-cantidad .boton {
-    padding: 0.375rem 0.75rem;
+    padding: var(--espacio-s) var(--espacio-m);
 }
 
 .item-cantidad {
@@ -447,6 +458,10 @@ Footer
 @media (min-width: 768px) {
     .header-logo img {
         width: 206px;
+    }
+    
+    h1 {
+        font-size: 3rem;
     }
 
     .resumen-carrito {
