@@ -42,7 +42,7 @@ VISTA MODIFICAR
 export const vistaModificar = (req,res) => {
     res.render("put", {
         title: "Modificar",
-    })
+    });
 }
 
 /*========
@@ -51,5 +51,14 @@ VISTA BAJA
 export const vistaBaja = (req,res) => {
     res.render("delete", {
         title:"Baja/Alta",
-    })
+    });
+}
+
+/*=================
+VISTA CREAR USUARIO
+=================*/
+export const vistaCreateUser = (req,res) => {
+    res.render("createUser", {
+        title:"Crear usuario"
+    });
 }

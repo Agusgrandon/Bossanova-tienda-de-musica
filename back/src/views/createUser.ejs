@@ -1,0 +1,23 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+    <main class="container">
+        <h1>Crear usuario</h1>
+
+        <form id="createUserForm" class="formulario" method="POST">
+            <label for="nameUser">Nombre</label>
+            <input type="text" name="nombre" id="nameUser" required>
+
+            <label for="emailUser">Email</label>
+            <input type="email" name="email" id="emailUser" required>
+
+            <label for="passwordUser">Contraseña</label>
+            <input type="password" name="password" id="passwordUser" required>
+
+            <button class="boton" type="submit">Crear</button>
+        </form>
+        
+        <section class="row g-4 justify-content-center mt-4" id="contenedor-mensaje"></section>
+
+    </main>
+
+<%- include("partials/footer.ejs") %>

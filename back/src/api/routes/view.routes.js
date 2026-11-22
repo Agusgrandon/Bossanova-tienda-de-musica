@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { vistaPrincipal, vistaConsultar, vistaCrear, vistaModificar, vistaBaja } from "../controllers/view.controllers.js";
+import { vistaPrincipal, vistaConsultar, vistaCrear, vistaModificar, vistaBaja, vistaCreateUser } from "../controllers/view.controllers.js";
 
 const router = Router();
 
@@ -27,5 +27,10 @@ router.get("/modificar", vistaModificar);
 VISTA BAJA
 ========*/
 router.get("/baja", vistaBaja);
+
+/*=================
+VISTA CREAR USUARIO 
+=================*/
+router.get("/crearUsuario", vistaCreateUser);
 
 export default router;
