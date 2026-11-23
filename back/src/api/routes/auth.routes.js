@@ -63,4 +63,26 @@ router.post("/login", async (req, res) =>{
     }
 })
 
+/*=============================
+Endpoint para destruir la sesion
+=============================*/
+router.post("/logout", (req, res) => {
+
+    // 1. Destruye la sesion
+    req.session.destroy((error) => {
+
+        if (error) {
+            console.log("Error al destruir la sesion: ", error);
+
+            return res.status(500).json({
+                message: "Error al cerrar la sesion"
+            });
+        }
+
+        // 2. Al terminar de destruir la sesion (exitosamente), redirigimos la login
+        res.redirect("/login");
+
+    })
+})
+
 export default router;
