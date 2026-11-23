@@ -13,10 +13,6 @@ getProductForm.addEventListener("submit", async (event) => {
 
     const idProd = event.target.idProd.value.trim();
 
-    if (!idProd) {
-        return mostrarMensaje("error", "Ingresa un id valido");
-    }
-
     try {
         const response = await fetch(`${urlBase}/api/productos/${idProd}`);
         const data = await response.json();
