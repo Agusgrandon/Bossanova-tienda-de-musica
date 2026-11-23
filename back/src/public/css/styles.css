@@ -205,6 +205,7 @@ Bienvenida
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding-bottom: 5rem;
     text-align: center;
 }
@@ -249,13 +250,11 @@ Bienvenida
 /*==============
 Mensaje de error
 ==============*/
-.mensaje {
-    margin: 0;
-    width: auto;
+.bienvenida .mensaje {
+    margin-top: 25px;
     max-width: 360px;
     padding: var(--espacio-m) var(--espacio-l);
     border-radius: 8px;
-    text-align: center;
 }
 
 .error {
