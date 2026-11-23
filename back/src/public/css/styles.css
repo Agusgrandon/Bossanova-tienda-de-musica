@@ -185,6 +185,11 @@ Menú hamburguesa (backoffice)
     display: flex;
 }
 
+.boton-salir {
+    width: 100%;
+    background: var(--error);
+}
+
 @media (min-width: 992px) {
     .boton-menu {
         display: none;
