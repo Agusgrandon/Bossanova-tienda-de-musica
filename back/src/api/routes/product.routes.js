@@ -1,7 +1,7 @@
 // rutas de los productos
 import { Router } from "express";
 import { validarId, validarProducto } from "../middlewares/middlewares.js";
-import { activarProducto, crearProducto, eliminarProducto, modificarProducto, obtenerProductoId, obtenerProductos, obtenerProductosActivos } from "../controllers/product.controllers.js";
+import { activarProducto, crearProducto, darDeBajaProducto, modificarProducto, obtenerProductoId, obtenerProductos, obtenerProductosActivos } from "../controllers/product.controllers.js";
 
 const router = Router();
 
@@ -33,7 +33,7 @@ router.put("/:id", validarId, validarProducto, modificarProducto);
 /*==================
 DELETE (baja lógica)
 ==================*/
-router.delete("/:id", validarId, eliminarProducto);
+router.delete("/:id", validarId, darDeBajaProducto);
 
 /*=============
 PATCH (activar)

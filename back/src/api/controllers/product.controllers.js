@@ -112,7 +112,7 @@ export const modificarProducto = async (req, res) => {
 /*=========
 BAJA LÓGICA
 =========*/
-export const eliminarProducto = async (req, res) => {
+export const darDeBajaProducto = async (req, res) => {
     const id = req.id;
 
     try {

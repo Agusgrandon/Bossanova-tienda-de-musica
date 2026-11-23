@@ -36,7 +36,7 @@ getProductForm.addEventListener("submit", async (event) => {
     }
 });
 
-// Card con botón Eliminar (si está activo) o Activar (si está inactivo)
+// Card con botón Dar de baja (si está activo) o Activar (si está inactivo)
 function renderizarProducto(producto) {
     contenedorProductos.innerHTML = `
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
@@ -48,13 +48,13 @@ function renderizarProducto(producto) {
                     ${producto.artista ? `<p class="card-artista">${producto.artista}</p>` : ""}
                     <p class="card-precio">$${Number(producto.precio).toLocaleString("es-AR")}</p>
                     ${producto.activo ? "" : `<p class="card-tipo card-inactivo">Inactivo</p>`}
-                    <button type="button" class="boton" id="btn-estado">${producto.activo ? "Eliminar" : "Activar"}</button>
+                    <button type="button" class="boton" id="btn-estado">${producto.activo ? "Dar de baja" : "Activar"}</button>
                 </div>
             </article>
         </div>
     `;
 
-    const accion = producto.activo ? "eliminar" : "activar";
+    const accion = producto.activo ? "dar de baja" : "activar";
 
     // Confirmación con confirm()
     document.getElementById("btn-estado").addEventListener("click", () => {
@@ -63,7 +63,7 @@ function renderizarProducto(producto) {
         if (!confirmacion) {
             alert("Acción cancelada");
         } else if (producto.activo) {
-            eliminarProducto(producto.id);
+            darDeBajaProducto(producto.id);
         } else {
             activarProducto(producto.id);
         }
@@ -71,7 +71,7 @@ function renderizarProducto(producto) {
 }
 
 // Baja lógica
-async function eliminarProducto(id) {
+async function darDeBajaProducto(id) {
     try {
         const response = await fetch(`${urlBase}/api/productos/${id}`, {
             method: "DELETE"
@@ -80,7 +80,7 @@ async function eliminarProducto(id) {
         alert(data.message);
         getProductForm.requestSubmit();
     } catch (error) {
-        console.error("Error al eliminar producto: ", error);
+        console.error("Error al dar de baja producto: ", error);
     }
 }
 
