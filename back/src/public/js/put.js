@@ -2,9 +2,10 @@ const urlBase = "http://localhost:3000";
 const contenedorProductos = document.getElementById("contenedor-productos");
 const contenedorForm = document.getElementById("contenedor-form");
 const getProductForm = document.getElementById("getProductForm");
+const contenedorMensaje = document.getElementById("contenedor-mensaje");
 
 function mostrarMensaje(tipo, mensaje) {
-    contenedorProductos.innerHTML = `
+    contenedorMensaje.innerHTML = `
         <p class="mensaje ${tipo}">${mensaje}</p>
     `;
 }
@@ -13,7 +14,9 @@ getProductForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const idProd = event.target.idProd.value.trim();
+    contenedorProductos.innerHTML = "";
     contenedorForm.innerHTML = "";
+    contenedorMensaje.innerHTML = "";
 
     try {
         const response = await fetch(`${urlBase}/api/productos/${idProd}`);
@@ -66,8 +69,8 @@ function renderizarFormularioPut(producto) {
 
             <label for="categoriaProducto">Categoria</label>
             <select name="categoria" id="categoriaProducto" required>
-                <option value="discos" ${esHardware ? "" : "selected"}>Discos</option>
-                <option value="hardware" ${esHardware ? "selected" : ""}>Hardware</option>
+                <option value="discos">Discos</option>
+                <option value="hardware">Hardware</option>
             </select>
 
             <label for="tipoProducto">Tipo</label>
@@ -93,6 +96,8 @@ function renderizarFormularioPut(producto) {
     const selectCategoria = document.getElementById("categoriaProducto");
     const inputArtista = document.getElementById("artistaProducto");
     const labelArtista = document.querySelector('label[for="artistaProducto"]');
+    
+    selectCategoria.value = producto.categoria;
 
     selectCategoria.addEventListener("change", () => {
         const hardwareSeleccionado = selectCategoria.value === "hardware";
@@ -117,13 +122,16 @@ function renderizarFormularioPut(producto) {
             });
 
             const data = await response.json();
-            alert(data.message);
 
-            if (response.ok) {
-                window.location.href = "/dashboard/principal";
+            if (!response.ok) {
+                return mostrarMensaje("error", data.message);
             }
+
+            window.location.href = "/dashboard/principal";
+
         } catch (error) {
             console.error("Error al modificar producto: ", error);
-        }
+            mostrarMensaje("error", "Error de conexion con el servidor");
+            }
     });
 }
