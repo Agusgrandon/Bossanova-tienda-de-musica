@@ -250,11 +250,17 @@ Bienvenida
 /*==============
 Mensaje de error
 ==============*/
-.bienvenida .mensaje {
-    margin-top: 25px;
+.mensaje {
+    margin: 0;
+    width: auto;
     max-width: 360px;
     padding: var(--espacio-m) var(--espacio-l);
     border-radius: 8px;
+    text-align: center;
+}
+
+.bienvenida .mensaje {
+    margin-top: 25px;
 }
 
 .error {
