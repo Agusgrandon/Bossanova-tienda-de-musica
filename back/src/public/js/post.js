@@ -8,19 +8,22 @@ function mostrarMensaje(tipo, mensaje) {
     `;
 }
 
+//Esconde el input de artista cuando se selecciona la categoría 'hardware'
 const selectCategoria = document.getElementById("categoriaProducto");
 const inputArtista = document.getElementById("artistaProducto");
 const labelArtista = document.querySelector('label[for="artistaProducto"]');
 
 selectCategoria.addEventListener("change", () => {
-const hardwareSeleccionado = selectCategoria.value === "hardware";
-labelArtista.hidden = hardwareSeleccionado;
-inputArtista.hidden = hardwareSeleccionado;
+    const hardwareSeleccionado = selectCategoria.value === "hardware";
+    labelArtista.hidden = hardwareSeleccionado;
+    inputArtista.hidden = hardwareSeleccionado;
+    inputArtista.required = !hardwareSeleccionado; 
 
-if (hardwareSeleccionado) {
-    inputArtista.value = "";
+    if (hardwareSeleccionado) {
+        inputArtista.value = ""; //Vacía el input
 }
-}) 
+})
+
 createProductForm.addEventListener("submit", async event => {
 event.preventDefault(); 
 const formData = new FormData(event.target);

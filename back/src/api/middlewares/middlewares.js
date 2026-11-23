@@ -25,8 +25,18 @@ function validarProducto(req, res, next) {
         return res.status(400).json({ message: "El precio debe ser mayor a 0." });
     }
 
+    // Validación de artista cuando se escoge categoría 'discos'
+    if (categoria === "discos" && !artista?.trim()) {
+        return res.status(400).json({ message: "Los discos necesitan artista." });
+    }
+
     // Artista: null si es hardware o si viene vacío
     req.body.artista = (categoria === "hardware" || !artista?.trim()) ? null : artista.trim();
+
+    //Guarda los valores sin espacios
+    req.body.nombre = nombre.trim();
+    req.body.tipo = tipo.trim();
+    req.body.imagen = imagen.trim();
 
     next();
 }
