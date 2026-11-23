@@ -34,7 +34,10 @@ app.get("/", (req, res) =>{
 });
 
 app.use("/api/productos", productRoutes);
+
 app.use("/dashboard", viewRoutes);
+
+app.use("/", )
 
 app.listen(PORT, () => {
     console.log(`Servidor http://localhost:${PORT}`);
