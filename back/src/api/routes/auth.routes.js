@@ -16,7 +16,7 @@ router.get("/login", (req, res) =>{
 });
 
 /*=============================
-Endpoint que atendera las peticiones POST a /login
+Endpoint para iniciar sesion, atendera las peticiones POST a /login
 =============================*/
 router.post("/login", async (req, res) =>{
     try{
