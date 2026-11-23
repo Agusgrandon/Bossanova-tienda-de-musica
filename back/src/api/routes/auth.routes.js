@@ -2,87 +2,27 @@
 Rutas de autenticacion 
 =============================*/
 import { Router } from "express";
-import connection from "../database/db.js";
+import { cerrarSesion, crearUsuario, iniciarSesion, mostrarLogin } from "../controllers/user.controllers.js";
 const router = Router();
 
 /*=============================
-Vista del login
+Mostrar login
 =============================*/
-router.get("/login", (req, res) =>{
-    res.render("login", {
-        title: "Login usuario",
-        about: "Login usuario admin"
-    });
-});
+router.get("/login", mostrarLogin);
 
 /*=============================
-Endpoint para iniciar sesion, atendera las peticiones POST a /login
+Iniciar sesion
 =============================*/
-router.post("/login", async (req, res) =>{
-    try{
-
-        const { email, password } = req.body;
-
-        if (!email || !password) {
-            return res.render("login", {
-                title: "Login usuario",
-                about: "Login de usuario admin",
-                error: "Todos los campos son necesarios"
-            });
-        }
-
-        const sql = "SELECT * FROM usuarios where email = ? AND password = ?";
-        const [rows] = await connection.query(sql, [email, password]);
-
-        if (rows.length === 0) {
-            return res.render("login", {
-                title: "Login usuario",
-                about: "Login de usuario admin",
-                error: "Credenciales incorrectas"
-            })
-        }
-
-        // Guardamos el usuario
-        const user = rows[0];
-
-        // Guardamos la sesion
-        req.session.user = {
-            id: user.id,
-            name: user.nombre,
-            email: user.email
-        }
-
-        // Creada la sesion, redirigimos a la vista del dashboard
-        res.redirect("/dashboard/principal");
-
-    } catch (error){
-        console.log("Error en el login ", error);
-        res.status(500).json({
-            message: "Error interno del servidor"
-        });
-    }
-})
+router.post("/login", iniciarSesion);
 
 /*=============================
-Endpoint para destruir la sesion
+Cerrar sesion
 =============================*/
-router.post("/logout", (req, res) => {
+router.post("/logout", cerrarSesion);
 
-    // 1. Destruye la sesion
-    req.session.destroy((error) => {
-
-        if (error) {
-            console.log("Error al destruir la sesion: ", error);
-
-            return res.status(500).json({
-                message: "Error al cerrar la sesion"
-            });
-        }
-
-        // 2. Al terminar de destruir la sesion (exitosamente), redirigimos la login
-        res.redirect("/login");
-
-    })
-})
+/*=============================
+Crear usuario
+=============================*/
+router.post("/createUser", crearUsuario);
 
 export default router;
