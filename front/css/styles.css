@@ -426,6 +426,53 @@ dialog form {
 }
 
 /*====
+Ticket
+====*/
+.ticket {
+    max-width: 560px;
+    margin: var(--espacio-xxl) auto;
+    padding: var(--espacio-xl);
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+}
+
+.ticket h1 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.ticket ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ticket li {
+    padding-block: var(--espacio-m);
+    border-top: 1px solid var(--borde);
+}
+
+.ticket li p {
+    margin: 0;
+}
+
+.ticket-total {
+    margin-top: 0;
+    padding-top: var(--espacio-l);
+    border-top: 1px solid var(--borde);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.ticket-acciones {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--espacio-m);
+}
+
+/*====
 Footer
 ====*/
 .footer {

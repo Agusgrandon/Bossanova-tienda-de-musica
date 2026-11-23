@@ -10,3 +10,7 @@ function leerCarrito() {
 function guardarCarrito(carrito) {
     localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
 }
+
+function formatearPrecio(numero) {
+    return `$${numero.toLocaleString("es-AR")}`;
+}

@@ -7,10 +7,6 @@ const resumenCarrito = document.querySelector(".resumen-carrito");
 const totalCarrito = document.getElementById("total-carrito");
 const totalDialog = document.getElementById("total-dialog");
 
-function formatearPrecio(numero) {
-    return `$${numero.toLocaleString("es-AR")}`;
-}
-
 function renderizarCarrito() {
     const carrito = leerCarrito();
 
