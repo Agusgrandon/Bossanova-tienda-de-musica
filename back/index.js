@@ -31,7 +31,7 @@ app.use(session({
 Endpoints (URL + HTTP + LOGICA)
 =============================*/
 app.get("/", (req, res) =>{
-    res.send("servidor funcionando :) ")
+    res.redirect("/login");
 });
 
 app.use("/", authRoutes)

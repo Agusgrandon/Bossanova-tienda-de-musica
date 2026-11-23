@@ -32,6 +32,6 @@ router.get("/baja", requireLogin, vistaBaja);
 /*=================
 VISTA CREAR USUARIO 
 =================*/
-router.get("/crearUsuario", vistaCreateUser);
+router.get("/crearUsuario", requireLogin, vistaCreateUser);
 
 export default router;
