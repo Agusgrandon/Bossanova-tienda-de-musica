@@ -37,7 +37,6 @@ app.get("/", (req, res) =>{
 app.use("/", authRoutes)
 app.use("/api/usuarios", userRoutes)
 app.use("/api/productos", productRoutes);
-
 app.use("/dashboard", viewRoutes);
 
 app.listen(PORT, () => {
