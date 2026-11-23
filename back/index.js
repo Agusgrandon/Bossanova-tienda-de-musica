@@ -2,7 +2,7 @@ import express from "express";
 import environments from "./src/api/config/environments.js";
 import cors from "cors";
 import { loggerUrl } from "./src/api/middlewares/middlewares.js";
-import { productRoutes, viewRoutes } from "./src/api/routes/index.js";
+import { authRoutes, productRoutes, viewRoutes } from "./src/api/routes/index.js";
 import { __dirname, join } from "./src/api/utils/index.js"
 import session from "express-session";
 
@@ -37,7 +37,7 @@ app.use("/api/productos", productRoutes);
 
 app.use("/dashboard", viewRoutes);
 
-app.use("/", )
+app.use("/", authRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor http://localhost:${PORT}`);
