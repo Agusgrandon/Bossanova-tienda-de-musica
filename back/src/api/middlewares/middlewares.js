@@ -55,9 +55,21 @@ function validarId(req, res, next) {
     next();
 }
 
+/*==============
+Login - proteger las rutas
+==============*/
+const requireLogin = (req, res, next) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+
+    next();
+}
+
 export{    
     loggerUrl,
     validarProducto,
-    validarId
+    validarId,
+    requireLogin
 }
 

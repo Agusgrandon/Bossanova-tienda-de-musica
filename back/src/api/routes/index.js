@@ -6,6 +6,6 @@ import authRoutes from "./auth.routes.js";
 export {
     productRoutes,
     viewRoutes,
-    userRoutes,
-    authRoutes
+    authRoutes,
+    userRoutes
 }
