@@ -55,6 +55,22 @@ function validarId(req, res, next) {
     next();
 }
 
+/*====================
+Validación de usuarios
+====================*/
+function validarUsuario(req, res, next) {
+    const { nombre, email, password } = req.body;
+
+    if (!nombre?.trim() || !email?.trim() || !password?.trim()) {
+        return res.status(400).render("createUser", {
+            title: "Crear usuario",
+            error: "Todos los campos son obligatorios."
+        });
+    }
+
+    next();
+}
+
 /*==============
 Login - proteger las rutas
 ==============*/
@@ -70,6 +86,7 @@ export{
     loggerUrl,
     validarProducto,
     validarId,
+    validarUsuario,
     requireLogin
 }
 
