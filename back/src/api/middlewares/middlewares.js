@@ -68,6 +68,10 @@ function validarUsuario(req, res, next) {
         });
     }
 
+    // Guarda nombre y email sin espacios
+    req.body.nombre = nombre.trim();
+    req.body.email = email.trim();
+
     next();
 }
 

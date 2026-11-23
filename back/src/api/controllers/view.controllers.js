@@ -57,7 +57,7 @@ export const vistaBaja = (req,res) => {
 /*=================
 VISTA CREAR USUARIO
 =================*/
-export const vistaCreateUser = async (req,res) => {
+export const vistaCreateUser = (req,res) => {
 
     res.render("createUser", {
         title: "Crear usuario"
