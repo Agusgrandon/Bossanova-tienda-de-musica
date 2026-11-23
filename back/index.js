@@ -19,6 +19,7 @@ Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(loggerUrl);
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(join(__dirname, "src/public")));
 app.use(session({
     secret: session_key,

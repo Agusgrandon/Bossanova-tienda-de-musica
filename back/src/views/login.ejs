@@ -2,18 +2,21 @@
 <main>
     <h3> <%= about %> </h3>
 
-    <form action="">
+    <form action="/login" method="POST">
 
         <label for="emailUser">Email</label>
-        <input type="email" name="" id="emailUser" required>
+        <input type="email" name="" id="emailUser">
 
         <label for="passwordUser">Password</label>
-        <input type="password" name="password" id="passwordUser" required>
+        <input type="password" name="password" id="passwordUser" >
 
         <input type="submit" value="Login">
 
     </form>
 
+    <% if (typeof error !== "undefined") { %>
+    <p class="mensaje error centrado"> <%= error %> </p>
+    <% } %>
 </main>
 
 <%- include("partials/footer.ejs") %>
