@@ -1,6 +1,6 @@
 // rutas de los productos
 import { Router } from "express";
-import { validarId, validarProducto } from "../middlewares/middlewares.js";
+import { requireLogin, validarId, validarProducto } from "../middlewares/middlewares.js";
 import { activarProducto, crearProducto, darDeBajaProducto, modificarProducto, obtenerProductoId, obtenerProductos, obtenerProductosActivos } from "../controllers/product.controllers.js";
 
 const router = Router();
@@ -23,21 +23,21 @@ router.get("/:id", validarId, obtenerProductoId);
 /*==
 POST 
 ==*/
-router.post("/", validarProducto, crearProducto);
+router.post("/", requireLogin, validarProducto, crearProducto);
 
 /*=
 PUT 
 =*/
-router.put("/:id", validarId, validarProducto, modificarProducto);
+router.put("/:id", requireLogin, validarId, validarProducto, modificarProducto);
 
 /*==================
 DELETE (baja lógica)
 ==================*/
-router.delete("/:id", validarId, darDeBajaProducto);
+router.delete("/:id", requireLogin, validarId, darDeBajaProducto);
 
 /*=============
 PATCH (activar)
 =============*/
-router.patch("/:id/activar", validarId, activarProducto);
+router.patch("/:id/activar", requireLogin, validarId, activarProducto);
 
 export default router;
