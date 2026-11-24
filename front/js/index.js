@@ -12,6 +12,8 @@ form.addEventListener("submit", (e) => {
     }
 
     localStorage.setItem("nombre-usuario", valor);
+    localStorage.removeItem("carrito");
+    window.location.href = "productos.html";
     window.location.href = "productos.html";
 });
 
