@@ -7,7 +7,11 @@ const fecha = new Date().toLocaleDateString("es-AR");
 const total = carrito.reduce((suma, item) => suma + item.precio * item.cantidad, 0);
 
 function detalleProducto(item) {
-    return `${item.nombre}${item.artista ? ` - ${item.artista}` : ""} (${item.tipo})`;
+    let artista = "";
+    if (item.artista) {
+        artista = ` - ${item.artista}`;
+    }
+    return `${item.nombre}${artista} (${item.tipo})`;
 }
 
 function detallePrecio(item) {
